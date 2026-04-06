@@ -10,21 +10,21 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./backend": {
-      "types": "./dist/backend/index.d.ts",
-      "import": "./dist/backend/index.js"
+    "./api": {
+      "types": "./dist/api/index.d.ts",
+      "import": "./dist/api/index.js"
     },
-    "./backend/*": {
-      "types": "./dist/backend/*/index.d.ts",
-      "import": "./dist/backend/*/index.js"
+    "./api/*": {
+      "types": "./dist/api/*/index.d.ts",
+      "import": "./dist/api/*/index.js"
     },
-    "./frontend": {
-      "types": "./dist/frontend/index.d.ts",
-      "import": "./dist/frontend/index.js"
+    "./client": {
+      "types": "./dist/client/index.d.ts",
+      "import": "./dist/client/index.js"
     },
-    "./frontend/*": {
-      "types": "./dist/frontend/*/index.d.ts",
-      "import": "./dist/frontend/*/index.js"
+    "./client/*": {
+      "types": "./dist/client/*/index.d.ts",
+      "import": "./dist/client/*/index.js"
     },
     "./shared": {
       "types": "./dist/shared/index.d.ts",
@@ -61,8 +61,8 @@
     "typescript",
     "node",
     "javascript",
-    "frontend",
-    "backend",
+    "client",
+    "api",
     "shared"
   ],
   "author": "Komodo Future Solutions",

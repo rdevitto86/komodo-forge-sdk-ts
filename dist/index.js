@@ -1,4 +1,4 @@
-export * as backend from './backend/index.js';
-export * as frontend from './frontend/index.js';
+export * as api from './api/index.js';
+export * as client from './client/index.js';
 export * as shared from './shared/index.js';
 //# sourceMappingURL=index.js.map
