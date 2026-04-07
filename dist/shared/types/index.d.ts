@@ -1,5 +1,2 @@
-export * from './marketing.js';
-export * from './orders.js';
-export * from './products.js';
-export * from './services.js';
+export {};
 //# sourceMappingURL=index.d.ts.map

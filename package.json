@@ -5,10 +5,56 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "keywords": [
+    "komodo",
+    "forge",
+    "sdk",
+    "typescript",
+    "node",
+    "javascript",
+    "client",
+    "api",
+    "shared"
+  ],
+  "author": "Komodo Future Solutions",
+  "license": "ISC",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "rebuild": "pnpm run clean && pnpm run build",
+    "update": "pnpm update --latest && pnpm install",
+    "prepublishOnly": "pnpm run rebuild",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@eslint/json": "^1.0.1",
+    "fast-redact": "^3.5.0",
+    "globals": "^17.3.0",
+    "jose": "^6.2.2",
+    "typescript-eslint": "^8.56.1"
+  },
+  "peerDependencies": {
+    "eslint": ">=9.0.0"
+  },
+  "devDependencies": {
+    "@types/fast-redact": "^3.0.4",
+    "@types/node": "^25.3.0",
+    "eslint": "^10.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./adapters": {
+      "types": "./dist/adapters/index.d.ts",
+      "import": "./dist/adapters/index.js"
+    },
+    "./adapters/*": {
+      "types": "./dist/adapters/*/index.d.ts",
+      "import": "./dist/adapters/*/index.js"
     },
     "./api": {
       "types": "./dist/api/index.d.ts",
@@ -34,46 +80,13 @@
       "types": "./dist/shared/*/index.d.ts",
       "import": "./dist/shared/*/index.js"
     },
-    "./shared/types": {
-      "types": "./dist/shared/types/index.d.ts",
-      "import": "./dist/shared/types/index.js"
-    },
-    "./types": {
-      "types": "./dist/shared/types/index.d.ts",
-      "import": "./dist/shared/types/index.js"
+    "./eslint": {
+      "types": "./dist/shared/eslint/index.d.ts",
+      "import": "./dist/shared/eslint/index.js"
     }
   },
   "files": [
     "dist",
     "README.md"
-  ],
-  "scripts": {
-    "build": "tsc",
-    "clean": "rm -rf dist",
-    "rebuild": "pnpm run clean && pnpm run build",
-    "prepublishOnly": "pnpm run rebuild",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "komodo",
-    "forge",
-    "sdk",
-    "typescript",
-    "node",
-    "javascript",
-    "client",
-    "api",
-    "shared"
-  ],
-  "author": "Komodo Future Solutions",
-  "license": "ISC",
-  "devDependencies": {
-    "@eslint/json": "^1.0.1",
-    "@types/node": "^25.3.0",
-    "eslint": "^10.0.2",
-    "globals": "^17.3.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.1"
-  }
+  ]
 }

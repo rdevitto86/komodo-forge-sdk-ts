@@ -13,6 +13,6 @@ export interface OrderItem {
     quantity: number;
     price: number;
     currency: 'USD';
-    metadata?: Record<string, any>;
+    metadata?: Record<string, unknown>;
 }
 //# sourceMappingURL=orders.d.ts.map

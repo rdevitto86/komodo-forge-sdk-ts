@@ -19,7 +19,7 @@ export interface Product {
     relatedProductIds?: string[];
     variants: Variant[];
     specs?: {
-        [key: string]: any;
+        [key: string]: unknown;
     };
     meta?: {
         tags?: string[];
@@ -27,7 +27,7 @@ export interface Product {
         isPopular?: boolean;
         isFeatured?: boolean;
         isNew?: boolean;
-        [key: string]: any;
+        [key: string]: unknown;
     };
     seo?: {
         title?: string;

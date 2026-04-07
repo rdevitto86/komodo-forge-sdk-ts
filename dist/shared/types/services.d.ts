@@ -25,7 +25,7 @@ export interface Service {
         isPopular?: boolean;
         isFeatured?: boolean;
         isNew?: boolean;
-        [key: string]: any;
+        [key: string]: unknown;
     };
     seo?: {
         title?: string;

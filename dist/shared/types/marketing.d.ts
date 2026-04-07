@@ -45,7 +45,7 @@ export interface MarketingContentData {
     productIds?: string[];
     serviceIds?: string[];
     discountCode?: string;
-    [key: string]: any;
+    [key: string]: unknown;
 }
 export interface MarketingTargeting {
     userSegments?: string[];
