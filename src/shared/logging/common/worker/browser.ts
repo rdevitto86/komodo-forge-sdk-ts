@@ -12,5 +12,5 @@ const { handleMessage } = createWorkerLogic(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (globalThis as any).onmessage = ({ data }: { data: WorkerMessage }) => {
-  void handleMessage(data);
+  handleMessage(data);
 };

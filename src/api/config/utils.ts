@@ -67,7 +67,7 @@ export function requireEnvBoolean(key: string): boolean {
 // --- Bulk validation ---
 
 /** Throws at startup if any of the listed env vars are missing or empty. */
-export function validateRequiredEnv(keys: readonly string[]): void {
+export function validateRequiredEnv(keys: readonly string[]) {
   const missing = keys.filter(k => {
     const v = getRaw(k);
     return v === undefined || v === '';

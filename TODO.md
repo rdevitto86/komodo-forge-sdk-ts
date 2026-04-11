@@ -146,7 +146,13 @@ Almost every module is an empty file. The sections below list what each stub nee
 - [ ] **H** Run generation — replace `models.ts` stub with generated output
 - [ ] **H** Implement `adapter.ts` — `PaymentsAdapter` class: `createIntent`, `capturePayment`, `refund`
 - [ ] **M** `Subscription`, `BillingCycle`, webhook event payload types — add to spec as features land
+- [ ] **M** Payment plan types — `PaymentPlan`, `Installment`, `PlanStatus`, `PlanSchedule`; add `createPlan`, `getPlan`, `listPlans`, `cancelPlan` to `PaymentsAdapter` once `komodo-payments-api` spec includes the plan endpoints
 - [ ] **L** Tax calculation types
+
+#### `adapters/shipping` → source: `komodo-shipping-api/openapi.yaml`
+- [ ] **M** Add `openapi.yaml` to `komodo-shipping-api` covering: `ShipmentLabel`, `Shipment`, `ShipmentStatus`, `ShipmentDirection`, `CarrierEvent`
+- [ ] **M** Run generation — replace `models.ts` stub with generated output once spec exists
+- [ ] **M** Implement `adapter.ts` — `ShippingAdapter` class: `createOutboundLabel`, `createInboundLabel`, `getShipment`, `trackShipment`
 
 #### `adapters/user` → source: `komodo-user-api/openapi.yaml`
 - [ ] **H** Add `openapi.yaml` to `komodo-user-api` covering: `User`, `UserProfile`, `Address`, `UserPreferences`
@@ -185,6 +191,9 @@ Almost every module is an empty file. The sections below list what each stub nee
 > Pure functions — no I/O.
 - [ ] **M** `isInStock(stockCode)` / `getStockLabel(stockCode)` — helpers over the `StockCode` union
 - [ ] **M** `isActiveProduct(product)` / `isActiveService(service)` — status checks used in both API filtering and client display
+- [ ] **M** `isRepairService(item)` — returns `true` when `item.service_type === 'repair'`; type narrows to a `RepairService` subtype with `accepted_device_types`, `estimated_turnaround_days`, `warranty_on_repair` fields
+- [ ] **M** `formatRepairStatus(status)` — human-readable label for repair booking state machine values (`intake_pending` → `"Awaiting Intake"`, `shipped_back` → `"Shipped Back to You"`, etc.)
+- [ ] **M** `isInboundShipment(shipment)` / `isOutboundShipment(shipment)` — type guards over a `ShipmentDirection` union (`'inbound' | 'outbound'`); used in shipping status displays and label flows
 - [ ] **L** `formatOrderStatus(status)` — human-readable order status label
 
 ### `shared/crypto`
@@ -283,9 +292,11 @@ Almost every module is an empty file. The sections below list what each stub nee
 - [ ] **H** Add `coverage` script and enforce a minimum threshold in CI (target 80%)
 - [ ] **H** Currency — `Order.currency` and `OrderItem.currency` are hardcoded to `'USD'`; define a `Currency` type (ISO 4217 union) used across all monetary types
 - [ ] **M** Add `audit` script (`pnpm audit`) and run it in CI
+- [ ] **M** Add versioned barrel exports to `dist/` — `dist/index.ts` re-exports from the current stable version (e.g. `v1`) as the default import path; older/newer versions remain importable via `dist/v1`, `dist/v2`, etc.; forces a clear default while preserving backward and forward compatibility across consumers
 - [ ] **M** Add `tsup` or `unbuild` for dual CJS/ESM output — `tsc` alone only emits ESM; some consumers (Jest, older Node tooling) still need CJS
 - [ ] **M** Add `.nvmrc` / `engines` field in `package.json` to pin the minimum Node version
 - [ ] **M** Committing `dist/` to git via CI bot is fragile — consider publishing to a private npm registry (GitHub Packages or Artifactory) instead; if keeping `dist/`-in-git, add a CI check that `dist/` is not stale on PRs
+- [ ] **M** Create a GitHub org named `komodo-forge-sdk`, transfer the repo under it, and publish `@komodo-forge-sdk/typescript` to GitHub Packages — the package scope must match the GitHub org for `npm.pkg.github.com` to accept the publish
 - [ ] **M** ESLint config uses `tseslint.configs.recommended` but does not enable type-aware rules (`tseslint.configs.recommendedTypeChecked`) — many important rules are gated behind the parser services
 - [ ] **M** Add `strict` lint rules — `@typescript-eslint/no-explicit-any`, `@typescript-eslint/no-unsafe-assignment`, `@typescript-eslint/consistent-type-imports`
 - [ ] **L** Add `CHANGELOG.md` and adopt a versioning strategy (Conventional Commits + `changesets`)
@@ -300,6 +311,7 @@ Almost every module is an empty file. The sections below list what each stub nee
 > These belong in `src/api/` (server-side) — payment processing must never happen in the browser.
 
 - [ ] **H** **Stripe** — payment intents, subscriptions, refunds, webhooks, idempotency key support
+- [ ] **M** **Stripe — payment plans / installments** — installment schedule creation, per-installment charge execution, plan cancellation, and webhook event types (`payment_plan.created`, `installment.paid`, `installment.failed`)
 - [ ] **H** **PayPal** — orders, captures, refunds, webhooks
 - [ ] **H** **Apple Pay** — session validation, payment token decryption
 - [ ] **H** **Google Pay** — payment data decryption, tokenization
@@ -324,6 +336,10 @@ Almost every module is an empty file. The sections below list what each stub nee
 ### Observability
 - [ ] **H** **Datadog** — metrics, logs, traces submission
 - [ ] **L** **New Relic** — telemetry ingest
+
+### Shipping & Logistics
+- [ ] **M** **EasyPost** — label generation (inbound + outbound), shipment creation, tracking events, carrier-agnostic wrapper; primary candidate for `komodo-shipping-api` backend
+- [ ] **L** **ShipStation** — order import, label generation, shipment status; alternative aggregator if EasyPost is not selected
 
 ### Search & Data
 - [ ] **H** **Persona** — identity verification (KYC)

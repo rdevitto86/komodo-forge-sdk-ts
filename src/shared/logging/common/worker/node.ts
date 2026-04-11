@@ -11,5 +11,5 @@ if (!port) throw new Error('[komodo-logger] worker/node.ts must run as a worker_
 const { handleMessage } = createWorkerLogic((msg) => port.postMessage(msg));
 
 port.on('message', (data: WorkerMessage) => {
-  void handleMessage(data);
+  handleMessage(data);
 });
