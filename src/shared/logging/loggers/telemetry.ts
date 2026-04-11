@@ -27,7 +27,7 @@ export interface TelemetryLogEvent extends BaseLogEvent {
  * - Server-side: Uses X-Correlation-ID header, sends to remote endpoint.
  * - Always logs to console (with level filtering).
  */
-export class TelemetryLogger {
+export default class TelemetryLogger {
   static #instance: TelemetryLogger | null = null;
 
   readonly #ref!: WorkerRef;

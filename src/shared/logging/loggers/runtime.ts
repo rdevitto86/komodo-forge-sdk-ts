@@ -30,7 +30,7 @@ export interface RuntimeLogEvent extends BaseLogEvent {
  * - Server-side: Uses X-Correlation-ID header, sends to remote endpoint.
  * - Always logs to console (with level filtering).
  */
-export class RuntimeLogger {
+export default class RuntimeLogger {
   static #instance: RuntimeLogger | null = null;
 
   readonly #ref!: WorkerRef;

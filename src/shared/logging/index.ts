@@ -1,6 +1,11 @@
 export type { LogLevel, LogEventType, BaseLogEvent } from './common/base.js';
 
-export type { RuntimeLogger, RuntimeLogEvent, RuntimeLoggerConfig } from './loggers/runtime.js';
-export type { ClickstreamLogger, ClickstreamLogEvent, ClickstreamLoggerConfig } from './loggers/clickstream.js';
-export type { InteractionLogger, InteractionLogEvent, InteractionLoggerConfig } from './loggers/interaction.js';
-export type { TelemetryLogger, TelemetryLogEvent, TelemetryLoggerConfig } from './loggers/telemetry.js';
+export type { RuntimeLogEvent, RuntimeLoggerConfig } from './loggers/runtime.js';
+export type { ClickstreamLogEvent, ClickstreamLoggerConfig } from './loggers/clickstream.js';
+export type { InteractionLogEvent, InteractionLoggerConfig } from './loggers/interaction.js';
+export type { TelemetryLogEvent, TelemetryLoggerConfig } from './loggers/telemetry.js';
+
+export { default as RuntimeLogger } from './loggers/runtime.js';
+export { default as ClickstreamLogger } from './loggers/clickstream.js';
+export { default as InteractionLogger } from './loggers/interaction.js';
+export { default as TelemetryLogger } from './loggers/telemetry.js';

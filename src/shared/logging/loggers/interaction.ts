@@ -25,7 +25,7 @@ export interface InteractionLogEvent extends BaseLogEvent {
  * This logger is designed to work in browser environments only. In Node.js or Lambda environments,
  * the logger will be disabled and no events will be sent.
  */
-export class InteractionLogger {
+export default class InteractionLogger {
   static #instance: InteractionLogger | null = null;
 
   readonly #ref!: WorkerRef;
