@@ -24,7 +24,9 @@
     "rebuild": "pnpm run clean && pnpm run build",
     "update": "pnpm update --latest && pnpm install",
     "prepublishOnly": "pnpm run rebuild",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@eslint/json": "^1.0.1",
@@ -39,22 +41,16 @@
   "devDependencies": {
     "@types/fast-redact": "^3.0.4",
     "@types/node": "^25.3.0",
+    "@vitest/coverage-v8": "^4.1.4",
     "eslint": "^10.0.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.4"
   },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./adapters": {
-      "types": "./dist/adapters/index.d.ts",
-      "import": "./dist/adapters/index.js"
-    },
-    "./adapters/*": {
-      "types": "./dist/adapters/*/index.d.ts",
-      "import": "./dist/adapters/*/index.js"
     },
     "./api": {
       "types": "./dist/api/index.d.ts",

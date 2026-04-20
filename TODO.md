@@ -85,6 +85,14 @@ Almost every module is an empty file. The sections below list what each stub nee
 - [ ] **M** Multipart / form-data request builder
 - [ ] **L** Request deduplication — in-flight cache to prevent duplicate concurrent GET requests
 
+### `shared/http/websocket`
+- [ ] **H** WebSocket connection handler — upgrade HTTP request to WebSocket, return 101 Switching Protocols response
+- [ ] **H** WebSocket client — connect, send, receive, close with proper cleanup
+- [ ] **H** Connection health checks — ping/pong heartbeat, connection state monitoring
+- [ ] **M** Reconnection logic — automatic reconnection with exponential backoff on disconnect
+- [ ] **M** Message queue — buffer messages while disconnected, flush on reconnect
+- [ ] **L** Room/channel subscription support
+
 ### `adapters/base`
 
 > A `BaseAdapter` class shared by all six adapters — eliminates duplicated fetch logic across
@@ -286,6 +294,7 @@ Almost every module is an empty file. The sections below list what each stub nee
 ## General SDK Health
 
 - [ ] **H** Add a test framework — `vitest` is the correct choice for an ESM-first TypeScript project; add `test` and `test:watch` scripts
+- [ ] **H** Add health check tests — WebSocket connection health, ping/pong heartbeat verification, connection state monitoring tests
 - [ ] **H** Add `lint` and `lint:fix` scripts to `package.json` (ESLint config exists but is not wired into any script)
 - [ ] **H** CI: add lint and test steps to `build.yml`; build-only CI catches zero runtime bugs
 - [ ] **H** Add Zod (or `valibot`) for runtime validation — TypeScript types are erased at runtime; API boundary inputs must be validated

@@ -2,8 +2,8 @@
 // Bundler (Vite / webpack 5) must process this file as a worker entry point via:
 //   new Worker(new URL('./worker/browser.js', import.meta.url), { type: 'module' })
 
-import { createWorkerLogic } from './shared.js';
-import type { WorkerMessage } from './shared.js';
+import { createWorkerLogic } from '../shared/shared.js';
+import type { WorkerMessage } from '../shared/shared.js';
 
 const { handleMessage } = createWorkerLogic(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

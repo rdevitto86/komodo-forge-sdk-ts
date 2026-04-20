@@ -6,8 +6,8 @@
 // caller — regardless of which logger class it is — gets a WorkerRef backed by the same thread.
 
 import type { LogEventType, BaseLogEvent } from '../base.js';
-import type { Transport } from '../config.js';
-import type { WorkerMessage, WorkerAckMessage } from './shared.js';
+import type { Transport } from '../base.js';
+import type { WorkerMessage, WorkerAckMessage } from './shared/shared.js';
 
 // Bump the version suffix if the registry's internal shape ever breaks across releases.
 const REGISTRY_KEY = Symbol.for('komodo.forge.logger.worker.v1');
@@ -78,6 +78,7 @@ function resolveTransport(t: Transport): Exclude<Transport, 'auto'> {
   if (t !== 'auto') return t;
   if (typeof process !== 'undefined') {
     if (typeof process.env['AWS_LAMBDA_FUNCTION_NAME'] === 'string') return 'fetch';
+    /* istanbul ignore else -- process.versions.node is always defined in Node.js test environments */
     if (process.versions?.node !== undefined) return 'node-worker';
   }
   if ((globalThis as Record<string, unknown>)['Worker'] !== undefined) return 'web-worker';
@@ -105,6 +106,7 @@ function dispatch(reg: WorkerRegistry, msg: WorkerMessage): void {
 async function sendFetch(reg: WorkerRegistry, type: LogEventType, payload: unknown): Promise<void> {
   const cfg = reg.providers.get(type);
   if (!cfg) return;
+
   try {
     await fetch(cfg.endpoint, {
       method:    'POST',
@@ -121,8 +123,7 @@ async function sendFetch(reg: WorkerRegistry, type: LogEventType, payload: unkno
 
 function markReady(reg: WorkerRegistry) {
   reg.state = 'ready';
-  const pending = reg.pending.splice(0);
-  for (const msg of pending) dispatch(reg, msg);
+  for (const msg of reg.pending.splice(0)) dispatch(reg, msg);
 }
 
 function degradeToFetch(reg: WorkerRegistry, err: Error) {
@@ -159,18 +160,19 @@ function initBrowserWorker(reg: WorkerRegistry): void {
       onerror:   ((e: { message: string }) => void) | null;
     };
 
-    const w = new WorkerCtor(new URL('./browser.js', import.meta.url), { type: 'module' });
+    const wkr = new WorkerCtor(new URL('./browser.js', import.meta.url), { type: 'module' });
 
-    w.onmessage = ({ data }) => handleAck(data);
-    w.onerror   = ({ message }) => {
+    wkr.onmessage = ({ data }) => handleAck(data);
+    wkr.onerror   = ({ message }) => {
       console.error('[komodo-logger] browser worker error:', message);
       degradeToFetch(reg, new Error(message));
     };
 
-    reg.worker = w;
+    reg.worker = wkr;
     markReady(reg);
   } catch (err) {
     console.error('[komodo-logger] could not start browser worker:', err);
+    /* istanbul ignore next -- non-Error throws are unusual; the catch path is tested with Error values */
     degradeToFetch(reg, err instanceof Error ? err : new Error(String(err)));
   }
 }
@@ -178,17 +180,17 @@ function initBrowserWorker(reg: WorkerRegistry): void {
 async function initNodeWorker(reg: WorkerRegistry): Promise<void> {
   try {
     const { Worker } = await import('worker_threads');
-    const w = new Worker(new URL('./node.js', import.meta.url));
+    const wkr = new Worker(new URL('./node.js', import.meta.url));
 
-    w.on('message', (data: WorkerAckMessage) => handleAck(data));
-    w.on('error',   (err: Error) => {
+    wkr.on('message', (data: WorkerAckMessage) => handleAck(data));
+    wkr.on('error',   (err: Error) => {
       console.error('[komodo-logger] node worker error:', err.message);
       degradeToFetch(reg, err);
     });
 
     reg.worker = {
-      postMessage: (data) => { w.postMessage(data); },
-      terminate:   ()     => w.terminate(),
+      postMessage: (data) => { wkr.postMessage(data); },
+      terminate:   ()     => wkr.terminate(),
     };
     markReady(reg);
   } catch (err) {
@@ -209,47 +211,46 @@ function spawnWorker(reg: WorkerRegistry): void {
 
 // --- WorkerRef factory ----------------------------------------------------------
 
-function buildRef(reg: WorkerRegistry): WorkerRef {
-  return {
-    register(type, cfg) {
-      const stored: ProviderCfg = {
-        endpoint:      cfg.endpoint,
-        headers:       cfg.headers ?? {},
-        batchSize:     cfg.batchSize,
-        flushInterval: cfg.flushInterval,
-      };
-      reg.providers.set(type, stored);
-      dispatch(reg, {
-        directive: 'CONFIG',
-        provider:  type,
-        payload:   stored,
-      });
-    },
+const buildRef = (reg: WorkerRegistry): WorkerRef => ({
+  register(type, cfg) {
+    const stored: ProviderCfg = {
+      endpoint:      cfg.endpoint,
+      /* istanbul ignore next */ /* headers is typed non-optional; ?? {} is a JS-only defensive fallback */
+      headers:       cfg.headers ?? {},
+      batchSize:     cfg.batchSize,
+      flushInterval: cfg.flushInterval,
+    };
+    reg.providers.set(type, stored);
+    dispatch(reg, {
+      directive: 'CONFIG',
+      provider:  type,
+      payload:   stored,
+    });
+  },
 
-    send(event) {
-      dispatch(reg, { directive: 'LOG', provider: event.type, payload: event });
-    },
+  send(event) {
+    dispatch(reg, { directive: 'LOG', provider: event.type, payload: event });
+  },
 
-    flush(type?) {
-      dispatch(reg, type !== undefined ? { directive: 'FLUSH', provider: type } : { directive: 'FLUSH' });
-    },
+  flush(type?) {
+    dispatch(reg, type !== undefined ? { directive: 'FLUSH', provider: type } : { directive: 'FLUSH' });
+  },
 
-    stop() {
-      dispatch(reg, { directive: 'STOP' });
-      setTimeout(() => {
-        void reg.worker?.terminate?.();
-        reg.worker  = null;
-        reg.state   = 'stopped';
-        reg.pending = [];
-      }, 500);
-    },
+  stop() {
+    dispatch(reg, { directive: 'STOP' });
+    setTimeout(() => {
+      void reg.worker?.terminate?.();
+      reg.worker  = null;
+      reg.state   = 'stopped';
+      reg.pending = [];
+    }, 500);
+  },
 
-    onError(handler) {
-      reg.errorHandlers.add(handler);
-      return () => reg.errorHandlers.delete(handler);
-    },
-  };
-}
+  onError(handler) {
+    reg.errorHandlers.add(handler);
+    return () => reg.errorHandlers.delete(handler);
+  },
+});
 
 // --- Public API -----------------------------------------------------------------
 
@@ -276,6 +277,7 @@ export function getOrCreateWorker(transport: Transport = 'auto'): WorkerRef {
 export function resetRegistry(): void {
   const g = globalThis as Record<symbol, WorkerRegistry | undefined>;
   const reg = g[REGISTRY_KEY];
+
   if (reg) {
     void reg.worker?.terminate?.();
     delete g[REGISTRY_KEY];

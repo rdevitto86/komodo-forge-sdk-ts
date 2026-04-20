@@ -93,6 +93,7 @@ export default class RuntimeLogger {
   }
 
   error(message: string, details?: RuntimeLogEvent['details'], requestId?: string): void {
+    /* istanbul ignore next -- error is the highest level; minLevel can never exceed it */
     if (LEVEL_WEIGHT.error < this.#minLevel) return;
     const event = this.#build('error', message, details, requestId);
     consoleOut('error', event, this.#verbose);
@@ -125,6 +126,7 @@ export default class RuntimeLogger {
 }
 
 function consoleOut(level: LogLevel, event: RuntimeLogEvent, verbose: boolean = false): void {
+  /* istanbul ignore next -- event is always a typed RuntimeLogEvent; null guard is defensive */
   if (!event) return;
   const formatted = formatEvent(event, verbose);
   switch (level) {

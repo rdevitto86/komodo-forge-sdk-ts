@@ -2,8 +2,8 @@
 // Referenced via: new Worker(new URL('./worker/node.js', import.meta.url))
 
 import { parentPort } from 'worker_threads';
-import { createWorkerLogic } from './shared.js';
-import type { WorkerMessage } from './shared.js';
+import { createWorkerLogic } from '../shared/shared.js';
+import type { WorkerMessage } from '../shared/shared.js';
 
 const port = parentPort;
 if (!port) throw new Error('[komodo-logger] worker/node.ts must run as a worker_threads Worker');
