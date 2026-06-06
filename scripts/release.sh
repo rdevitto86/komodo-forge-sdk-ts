@@ -13,10 +13,6 @@ source "$(dirname "$0")/_lib.sh"
 # Args
 # ---------------------------------------------------------------------------
 BUMP="${1:-}"
-if [[ -z "$BUMP" ]]; then
-  log_error "Usage: $0 <patch|minor|major|x.y.z>"
-  exit 1
-fi
 
 # ---------------------------------------------------------------------------
 # Working tree must be clean
@@ -38,6 +34,7 @@ log_info "Current version: $current"
 IFS='.' read -r major minor patch <<< "$current"
 
 case "$BUMP" in
+  "")     new_version="$current" ;;
   patch)  new_version="$major.$minor.$((patch + 1))" ;;
   minor)  new_version="$major.$((minor + 1)).0" ;;
   major)  new_version="$((major + 1)).0.0" ;;

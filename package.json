@@ -22,6 +22,7 @@
     "build": "tsc",
     "clean": "rm -rf dist",
     "rebuild": "pnpm run clean && pnpm run build",
+    "fresh": "rm -rf node_modules && pnpm update --latest && pnpm install",
     "update": "pnpm update --latest && pnpm install",
     "prepublishOnly": "pnpm run rebuild",
     "release": "bash scripts/release.sh",
@@ -30,23 +31,23 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@eslint/json": "^1.0.1",
+    "@eslint/json": "^2.0.0",
     "fast-redact": "^3.5.0",
-    "globals": "^17.3.0",
-    "jose": "^6.2.2",
-    "typescript-eslint": "^8.56.1"
+    "globals": "^17.6.0",
+    "jose": "^6.2.3",
+    "typescript-eslint": "^8.60.1"
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"
   },
   "devDependencies": {
     "@types/fast-redact": "^3.0.4",
-    "@types/node": "^25.3.0",
-    "@vitest/coverage-v8": "^4.1.4",
-    "eslint": "^10.0.2",
+    "@types/node": "^25.9.2",
+    "@vitest/coverage-v8": "^4.1.8",
+    "eslint": "^10.4.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.4"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
   },
   "exports": {
     ".": {
