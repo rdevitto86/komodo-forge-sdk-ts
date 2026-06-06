@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# release.sh — bump version in package.json, build, commit, tag, and push.
+#
+# Usage:
+#   pnpm release patch          # 0.2.0 → 0.2.1
+#   pnpm release minor          # 0.2.0 → 0.3.0
+#   pnpm release major          # 0.2.0 → 1.0.0
+#   pnpm release 1.5.0          # explicit version
+set -euo pipefail
+source "$(dirname "$0")/_lib.sh"
+
+# ---------------------------------------------------------------------------
+# Args
+# ---------------------------------------------------------------------------
+BUMP="${1:-}"
+if [[ -z "$BUMP" ]]; then
+  log_error "Usage: $0 <patch|minor|major|x.y.z>"
+  exit 1
+fi
+
+# ---------------------------------------------------------------------------
+# Working tree must be clean
+# ---------------------------------------------------------------------------
+if [[ -n "$(git status --porcelain)" ]]; then
+  log_error "Working tree is dirty — commit or stash all changes before releasing."
+  exit 1
+fi
+
+ROOT="$(repo_root)"
+PKG="$ROOT/package.json"
+
+# ---------------------------------------------------------------------------
+# Read current version from package.json
+# ---------------------------------------------------------------------------
+current=$(node -p "require('$PKG').version")
+log_info "Current version: $current"
+
+IFS='.' read -r major minor patch <<< "$current"
+
+case "$BUMP" in
+  patch)  new_version="$major.$minor.$((patch + 1))" ;;
+  minor)  new_version="$major.$((minor + 1)).0" ;;
+  major)  new_version="$((major + 1)).0.0" ;;
+  [0-9]*) new_version="$BUMP" ;;
+  *)
+    log_error "Unknown bump type '$BUMP'. Use patch, minor, major, or an explicit version."
+    exit 1
+    ;;
+esac
+
+log_section "Releasing $current → $new_version"
+
+# ---------------------------------------------------------------------------
+# Update package.json version
+# ---------------------------------------------------------------------------
+node -e "
+  const fs = require('fs');
+  const pkg = JSON.parse(fs.readFileSync('$PKG', 'utf8'));
+  pkg.version = '$new_version';
+  fs.writeFileSync('$PKG', JSON.stringify(pkg, null, 2) + '\n');
+"
+log_success "package.json updated to $new_version"
+
+# ---------------------------------------------------------------------------
+# Build
+# ---------------------------------------------------------------------------
+log_section "Building"
+pnpm run build
+log_success "Build passed"
+
+# ---------------------------------------------------------------------------
+# Commit, tag, push
+# ---------------------------------------------------------------------------
+log_section "Committing and tagging"
+git add "$PKG"
+
+# Include dist/ if it is tracked (in-repo distribution pattern)
+if git ls-files --error-unmatch dist/ &>/dev/null 2>&1; then
+  git add dist/
+fi
+
+git commit -m "chore: release v$new_version"
+git tag "v$new_version"
+git push origin "v$new_version"
+log_success "Tagged and pushed v$new_version"
+
+log_section "Done"
+log_info "Release v$new_version is live. Don't forget to:"
+log_info "  • Push the branch if you haven't: git push origin <branch>"
+log_info "  • Update CHANGELOG.md once the versioning strategy is settled"

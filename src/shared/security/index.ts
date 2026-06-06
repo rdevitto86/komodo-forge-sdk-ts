@@ -92,3 +92,48 @@ export const generatePKCECodeVerifier = (): string => randomBytes(32).toString('
 /** Derives the S256 PKCE code challenge from a verifier. */
 export const generatePKCEChallenge = (verifier: string): string => createHash('sha256').update(verifier).digest('base64url');
 
+// --- OAuth ---
+// Mirrors komodo-forge-sdk-go/security/oauth/oauth.go
+
+const ALLOWED_SCOPES = new Set([
+  'read', 'write', 'admin',
+  'checkout:read', 'checkout:write',
+  'orders:read',
+  'users:profile',
+]);
+
+const VALID_GRANT_TYPES = new Set([
+  'client_credentials',
+  'authorization_code',
+  'refresh_token',
+]);
+
+/**
+ * Returns true when every scope in the space- or comma-separated string is
+ * either a known scope or a service-to-service scope (prefixed "svc:").
+ */
+export function isValidScope(scope: string): boolean {
+  if (!scope) return false;
+  const parts = scope.replace(/,/g, ' ').split(/\s+/).filter(Boolean);
+  return parts.every(s => s.startsWith('svc:') || ALLOWED_SCOPES.has(s));
+}
+
+/** Returns any scopes in the string that are not recognised. */
+export function getInvalidScopes(scope: string): string[] {
+  if (!scope) return [];
+  return scope.replace(/,/g, ' ').split(/\s+/).filter(
+    s => s !== '' && !s.startsWith('svc:') && !ALLOWED_SCOPES.has(s),
+  );
+}
+
+/** Returns true when the grant type is one of the supported OAuth 2.0 flows. */
+export function isValidGrantType(grantType: string): boolean {
+  return VALID_GRANT_TYPES.has(grantType);
+}
+
+/** Extracts the Bearer token from an Authorization header value, or returns null. */
+export function extractBearerToken(authHeader: string | null): string | null {
+  if (!authHeader?.startsWith('Bearer ')) return null;
+  return authHeader.slice(7).trim() || null;
+}
+

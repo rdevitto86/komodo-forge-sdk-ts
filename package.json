@@ -1,6 +1,6 @@
 {
   "name": "@komodo-forge-sdk/typescript",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An internal library for Komodo APIs built using Node",
   "type": "module",
   "main": "./dist/index.js",
@@ -24,6 +24,7 @@
     "rebuild": "pnpm run clean && pnpm run build",
     "update": "pnpm update --latest && pnpm install",
     "prepublishOnly": "pnpm run rebuild",
+    "release": "bash scripts/release.sh",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
