@@ -61,9 +61,17 @@
       "types": "./dist/api/*/index.d.ts",
       "import": "./dist/api/*/index.js"
     },
+    "./cdk": {
+      "types": "./dist/deploy/cdk/index.d.ts",
+      "import": "./dist/deploy/cdk/index.js"
+    },
     "./cdk/*": {
       "types": "./dist/deploy/cdk/*/index.d.ts",
       "import": "./dist/deploy/cdk/*/index.js"
+    },
+    "./cdk/constants": {
+      "types": "./dist/deploy/cdk/constants.d.ts",
+      "import": "./dist/deploy/cdk/constants.js"
     },
     "./client": {
       "types": "./dist/client/index.d.ts",
