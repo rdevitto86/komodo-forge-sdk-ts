@@ -39,7 +39,7 @@ case "$BUMP" in
   "")
     # Extract version from CHANGELOG (first version found)
     if [[ -f "$CHANGELOG" ]]; then
-      new_version=$(grep -oP '\[\K[0-9]+\.[0-9]+\.[0-9]+' "$CHANGELOG" | head -1)
+      new_version=$(grep -E '\[[0-9]+\.[0-9]+\.[0-9]+\]' "$CHANGELOG" | head -1 | sed 's/.*\[\([0-9.]*\)\].*/\1/')
       if [[ -z "$new_version" ]]; then
         log_error "Could not extract version from CHANGELOG.md"
         exit 1
