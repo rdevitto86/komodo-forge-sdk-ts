@@ -24,6 +24,7 @@ fi
 
 ROOT="$(repo_root)"
 PKG="$ROOT/package.json"
+CHANGELOG="$ROOT/CHANGELOG.md"
 
 # ---------------------------------------------------------------------------
 # Read current version from package.json
@@ -31,14 +32,39 @@ PKG="$ROOT/package.json"
 current=$(node -p "require('$PKG').version")
 log_info "Current version: $current"
 
-IFS='.' read -r major minor patch <<< "$current"
-
+# ---------------------------------------------------------------------------
+# Determine new version
+# ---------------------------------------------------------------------------
 case "$BUMP" in
-  "")     new_version="$current" ;;
-  patch)  new_version="$major.$minor.$((patch + 1))" ;;
-  minor)  new_version="$major.$((minor + 1)).0" ;;
-  major)  new_version="$((major + 1)).0.0" ;;
-  [0-9]*) new_version="$BUMP" ;;
+  "")
+    # Extract version from CHANGELOG (first version found)
+    if [[ -f "$CHANGELOG" ]]; then
+      new_version=$(grep -oP '\[\K[0-9]+\.[0-9]+\.[0-9]+' "$CHANGELOG" | head -1)
+      if [[ -z "$new_version" ]]; then
+        log_error "Could not extract version from CHANGELOG.md"
+        exit 1
+      fi
+      log_info "Extracted version from CHANGELOG: $new_version"
+    else
+      log_error "CHANGELOG.md not found"
+      exit 1
+    fi
+    ;;
+  patch)
+    IFS='.' read -r major minor patch <<< "$current"
+    new_version="$major.$minor.$((patch + 1))"
+    ;;
+  minor)
+    IFS='.' read -r major minor patch <<< "$current"
+    new_version="$major.$((minor + 1)).0"
+    ;;
+  major)
+    IFS='.' read -r major minor patch <<< "$current"
+    new_version="$((major + 1)).0.0"
+    ;;
+  [0-9]*)
+    new_version="$BUMP"
+    ;;
   *)
     log_error "Unknown bump type '$BUMP'. Use patch, minor, major, or an explicit version."
     exit 1
