@@ -15,7 +15,10 @@ export function readinessHandler(checks, _req) {
     }
     const status = allOk ? 'ok' : 'unavailable';
     const httpStatus = allOk ? 200 : 503;
-    return new Response(JSON.stringify({ status, checks: checkResults }), { status: httpStatus, headers: { 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({ status, checks: checkResults }), {
+        status: httpStatus,
+        headers: { 'Content-Type': 'application/json' },
+    });
 }
 export default healthHandler;
 //# sourceMappingURL=index.js.map

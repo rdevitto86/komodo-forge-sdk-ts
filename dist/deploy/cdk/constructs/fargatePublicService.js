@@ -5,8 +5,8 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as logs from 'aws-cdk-lib/aws-logs';
-import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
+import { buildFargateService } from './fargateServiceBase.js';
 export class FargatePublicService extends Construct {
     service;
     alb;
@@ -15,34 +15,6 @@ export class FargatePublicService extends Construct {
     taskDefinition;
     constructor(scope, id, props) {
         super(scope, id);
-        const cpu = props.cpu ?? 256;
-        const memoryLimitMiB = props.memoryLimitMiB ?? 512;
-        this.taskDefinition = new ecs.FargateTaskDefinition(this, 'TaskDef', {
-            cpu,
-            memoryLimitMiB,
-        });
-        if (props.secretPath) {
-            const secret = secretsmanager.Secret.fromSecretNameV2(this, 'Secret', props.secretPath);
-            secret.grantRead(this.taskDefinition.taskRole);
-        }
-        this.taskDefinition.addContainer('container', {
-            image: props.image,
-            essential: true,
-            containerName: props.serviceName,
-            portMappings: [{ containerPort: props.containerPort, protocol: ecs.Protocol.TCP }],
-            healthCheck: {
-                command: props.healthCheckCommand ?? ['CMD-SHELL', 'exit 0'],
-                interval: cdk.Duration.seconds(30),
-                timeout: cdk.Duration.seconds(5),
-                retries: 3,
-                startPeriod: cdk.Duration.seconds(10),
-            },
-            ...(props.environment && { environment: props.environment }),
-            logging: ecs.LogDrivers.awsLogs({
-                logGroup: props.logGroup,
-                streamPrefix: props.streamPrefix ?? 'public',
-            }),
-        });
         this.albSecurityGroup = new ec2.SecurityGroup(this, 'AlbSG', {
             vpc: props.vpc,
             description: 'ALB ingress',
@@ -56,14 +28,13 @@ export class FargatePublicService extends Construct {
             allowAllOutbound: true,
         });
         this.taskSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(props.containerPort));
-        this.service = new ecs.FargateService(this, 'Service', {
-            cluster: props.cluster,
-            taskDefinition: this.taskDefinition,
-            desiredCount: props.desiredCount ?? 1,
+        const { taskDefinition, service } = buildFargateService(this, {
+            ...props,
+            streamPrefix: props.streamPrefix ?? 'public',
             securityGroups: [this.taskSecurityGroup],
-            assignPublicIp: false,
-            serviceName: props.serviceName,
         });
+        this.taskDefinition = taskDefinition;
+        this.service = service;
         this.alb = new elbv2.ApplicationLoadBalancer(this, 'ALB', {
             vpc: props.vpc,
             internetFacing: true,
@@ -100,27 +71,6 @@ export class FargatePublicService extends Construct {
                 interval: cdk.Duration.seconds(30),
                 timeout: cdk.Duration.seconds(5),
             },
-        });
-        const scaling = this.service.autoScaleTaskCount({
-            minCapacity: props.minCapacity ?? 1,
-            maxCapacity: props.maxCapacity ?? 2,
-        });
-        scaling.scaleOnCpuUtilization('CpuScaling', {
-            targetUtilizationPercent: 70,
-        });
-        new cloudwatch.Alarm(this, 'CpuHighAlarm', {
-            metric: this.service.metricCpuUtilization(),
-            threshold: 80,
-            evaluationPeriods: 3,
-            comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
-            treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
-        });
-        new cloudwatch.Alarm(this, 'MemoryHighAlarm', {
-            metric: this.service.metricMemoryUtilization(),
-            threshold: 80,
-            evaluationPeriods: 3,
-            comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
-            treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
         });
         const unhealthyMetric = new cloudwatch.Metric({
             metricName: 'UnHealthyHostCount',

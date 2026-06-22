@@ -1,7 +1,7 @@
-import { getOrCreateWorker } from '../common/worker/registry.js';
-import { formatEvent } from '../common/format.js';
-import { redact } from '../../redaction/index.js';
 import { getCorrelationId } from '../../http/utils/index.js';
+import { redact } from '../../redaction/index.js';
+import { formatEvent } from '../common/format.js';
+import { getOrCreateWorker } from '../common/worker/registry.js';
 /**
  * Clickstream logger for tracking user interactions in the browser.
  *
@@ -40,7 +40,9 @@ export default class ClickstreamLogger {
         ClickstreamLogger.#instance = this;
     }
     /** For testing only — clears the singleton so the next constructor call re-initializes. */
-    static _reset() { ClickstreamLogger.#instance = null; }
+    static _reset() {
+        ClickstreamLogger.#instance = null;
+    }
     track(action, target, requestId) {
         if (!this.#enabled)
             return;
@@ -70,7 +72,11 @@ export default class ClickstreamLogger {
             console.debug(formatEvent(event, true));
         this.#ref.send(redact(event));
     }
-    flush() { this.#ref.flush('clickstream'); }
-    stop() { this.#ref.stop(); }
+    flush() {
+        this.#ref.flush('clickstream');
+    }
+    stop() {
+        this.#ref.stop();
+    }
 }
 //# sourceMappingURL=clickstream.js.map

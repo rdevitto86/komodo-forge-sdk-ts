@@ -71,6 +71,20 @@ case "$BUMP" in
     ;;
 esac
 
+changelog_version=$(grep -E '\[[0-9]+\.[0-9]+\.[0-9]+\]' "$CHANGELOG" | head -1 | sed 's/.*\[\([0-9.]*\)\].*/\1/')
+
+if [[ -z "$BUMP" ]]; then
+  if [[ "$changelog_version" != "$current" ]]; then
+    log_error "CHANGELOG latest version ($changelog_version) does not match package.json ($current) — update one to match before releasing."
+    exit 1
+  fi
+else
+  if [[ "$changelog_version" != "$new_version" ]]; then
+    log_error "CHANGELOG latest version ($changelog_version) does not match target version ($new_version) — add a CHANGELOG entry for v$new_version before releasing."
+    exit 1
+  fi
+fi
+
 log_section "Releasing $current → $new_version"
 
 # ---------------------------------------------------------------------------

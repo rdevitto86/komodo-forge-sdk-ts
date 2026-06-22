@@ -1,6 +1,6 @@
-import { getOrCreateWorker } from '../common/worker/registry.js';
-import { formatEvent } from '../common/format.js';
 import { redact } from '../../redaction/index.js';
+import { formatEvent } from '../common/format.js';
+import { getOrCreateWorker } from '../common/worker/registry.js';
 /**
  * Telemetry logger for sending telemetry data to the backend.
  *
@@ -37,7 +37,9 @@ export default class TelemetryLogger {
         TelemetryLogger.#instance = this;
     }
     /** For testing only — clears the singleton so the next constructor call re-initializes. */
-    static _reset() { TelemetryLogger.#instance = null; }
+    static _reset() {
+        TelemetryLogger.#instance = null;
+    }
     trace(name, attributes, requestId) {
         const event = {
             timestamp: new Date().toISOString(),
@@ -55,7 +57,11 @@ export default class TelemetryLogger {
             console.debug(formatEvent(event, true));
         this.#ref.send(redact(event));
     }
-    flush() { this.#ref.flush('telemetry'); }
-    stop() { this.#ref.stop(); }
+    flush() {
+        this.#ref.flush('telemetry');
+    }
+    stop() {
+        this.#ref.stop();
+    }
 }
 //# sourceMappingURL=telemetry.js.map

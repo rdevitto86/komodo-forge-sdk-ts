@@ -1,6 +1,6 @@
 {
   "name": "@komodo-forge-sdk/typescript",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "An internal library for Komodo APIs built using Node",
   "type": "module",
   "main": "./dist/index.js",
@@ -26,6 +26,8 @@
     "update": "pnpm update --latest && pnpm install",
     "prepublishOnly": "pnpm run rebuild",
     "release": "bash scripts/release.sh",
+    "format": "biome format --write src/",
+    "format:check": "biome check --formatter-enabled=true --linter-enabled=false src/",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "test": "vitest run",
@@ -40,6 +42,7 @@
     "jose": "^6.2.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.0",
     "@types/fast-redact": "^3.0.4",
     "@types/node": "^26.0.0",
     "@vitest/coverage-v8": "^4.1.9",

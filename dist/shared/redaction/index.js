@@ -17,9 +17,9 @@ export const redact = fastRedact({
         '*.password',
         '*.token',
         '*.cardNumber',
-        '*.email'
+        '*.email',
     ],
     censor: '[REDACTED]',
-    serialize: false
+    serialize: false,
 });
 //# sourceMappingURL=index.js.map

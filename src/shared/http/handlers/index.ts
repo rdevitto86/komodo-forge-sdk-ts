@@ -1,3 +1,3 @@
-import healthHandler from "./health/index.js";
+import healthHandler from './health/index.js';
 
 export { healthHandler };

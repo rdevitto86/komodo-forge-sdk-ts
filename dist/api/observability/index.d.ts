@@ -1,5 +1,5 @@
-export { healthHandler, readinessHandler } from '../../shared/http/handlers/health/index.js';
 export type { HealthCheckResult } from '../../shared/http/handlers/health/index.js';
+export { healthHandler, readinessHandler } from '../../shared/http/handlers/health/index.js';
 /** Registers SIGTERM/SIGINT handlers that call the provided cleanup function. */
 export declare function onShutdown(cleanup: () => Promise<void>): void;
 export declare const metrics: {

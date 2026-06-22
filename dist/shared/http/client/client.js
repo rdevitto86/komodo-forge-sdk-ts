@@ -130,7 +130,9 @@ export default class HttpClient {
             throw new ErrCircuitOpen();
         this.breakerOnStart(host);
         const controller = new AbortController();
-        const timer = setTimeout(() => { controller.abort(); }, this.timeoutMs);
+        const timer = setTimeout(() => {
+            controller.abort();
+        }, this.timeoutMs);
         try {
             const resp = await fetch(request, { signal: controller.signal });
             if (resp.status >= 400) {
@@ -155,7 +157,9 @@ export default class HttpClient {
         let lastError;
         for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
             if (attempt > 0) {
-                await new Promise(resolve => { setTimeout(resolve, 2 ** (attempt - 1) * 100); });
+                await new Promise((resolve) => {
+                    setTimeout(resolve, 2 ** (attempt - 1) * 100);
+                });
             }
             try {
                 const req = new Request(url, {
@@ -189,13 +193,20 @@ export default class HttpClient {
         let lastError;
         for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
             if (attempt > 0) {
-                await new Promise(resolve => { setTimeout(resolve, 2 ** (attempt - 1) * 100); });
+                await new Promise((resolve) => {
+                    setTimeout(resolve, 2 ** (attempt - 1) * 100);
+                });
             }
             try {
                 const req = new Request(url, {
                     ...init,
                     method: 'POST',
-                    headers: { ...this.defaultHeaders, 'Content-Type': 'application/json', Accept: 'application/json', ...init?.headers },
+                    headers: {
+                        ...this.defaultHeaders,
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        ...init?.headers,
+                    },
                     body: payload,
                 });
                 const resp = await this.do(req);
@@ -243,7 +254,12 @@ export default class HttpClient {
         const req = new Request(url, {
             ...init,
             method,
-            headers: { ...this.defaultHeaders, 'Content-Type': 'application/json', Accept: 'application/json', ...init?.headers },
+            headers: {
+                ...this.defaultHeaders,
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                ...init?.headers,
+            },
             body: JSON.stringify(body),
         });
         const resp = await this.do(req);

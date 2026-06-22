@@ -1,8 +1,8 @@
 import * as cdk from 'aws-cdk-lib';
-import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as kms from 'aws-cdk-lib/aws-kms';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
-import * as kms from 'aws-cdk-lib/aws-kms';
+import * as sqs from 'aws-cdk-lib/aws-sqs';
 export class SqsQueueBuilder {
     props = {};
     subscriptions = [];

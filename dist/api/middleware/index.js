@@ -3,8 +3,8 @@
 //
 // Middleware pattern: (next: Handler) => Handler
 // Use `chain()` to compose multiple middlewares onto a single handler.
+import { Auth, buildErrorResponse, Global } from '../../shared/http/errors/index.js';
 import { verifyJWT } from '../../shared/security/index.js';
-import { buildErrorResponse, Global, Auth } from '../../shared/http/errors/index.js';
 /** Per-request context stored in a WeakMap so it's GC'd when the Request is released. */
 const _ctx = new WeakMap();
 const CTX = {
@@ -129,7 +129,7 @@ export const requireServiceScope = (next) => (req) => {
     if (!scopes || scopes.length === 0) {
         return Promise.resolve(buildErrorResponse(req, Auth.InsufficientScope));
     }
-    const hasServiceScope = scopes.some(s => s.startsWith('svc:'));
+    const hasServiceScope = scopes.some((s) => s.startsWith('svc:'));
     if (!hasServiceScope) {
         return Promise.resolve(buildErrorResponse(req, Auth.InsufficientScope));
     }
@@ -216,7 +216,7 @@ export const csrfMiddleware = (next) => async (req) => {
 export function rateLimiterMiddleware(opts = {}) {
     const rps = opts.rps ?? (Number(process.env['RATE_LIMIT_RPS']) || 10);
     const burst = opts.burst ?? (Number(process.env['RATE_LIMIT_BURST']) || 20);
-    const failOpen = opts.failOpen ?? (process.env['RATE_LIMIT_FAIL_OPEN'] !== 'false');
+    const failOpen = opts.failOpen ?? process.env['RATE_LIMIT_FAIL_OPEN'] !== 'false';
     const buckets = new Map();
     const defaultKey = (req) => req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
     const keyFn = opts.keyFn ?? defaultKey;
@@ -306,12 +306,7 @@ const XSS = /(?:<script|<\/script|javascript:|onerror=|onload=|<iframe|<\/iframe
 const PATH_TRAV = /\.\.\/|\.\.[\\/]/g;
 const NULL_BYTE = /\x00/g;
 function sanitizeStr(s) {
-    return s
-        .replace(NULL_BYTE, '')
-        .replace(PATH_TRAV, '')
-        .replace(SQL_INJECTION, '')
-        .replace(XSS, '')
-        .trim();
+    return s.replace(NULL_BYTE, '').replace(PATH_TRAV, '').replace(SQL_INJECTION, '').replace(XSS, '').trim();
 }
 function sanitizeJSON(val) {
     if (typeof val === 'string')
@@ -374,13 +369,18 @@ export const normalizationMiddleware = (next) => async (req) => {
     path = path.replace(/\/\/+/g, '/');
     url.pathname = path;
     const booleanNorm = {
-        True: 'true', TRUE: 'true',
-        False: 'false', FALSE: 'false',
+        True: 'true',
+        TRUE: 'true',
+        False: 'false',
+        FALSE: 'false',
     };
     const caseNorm = {
-        ASC: 'asc', Asc: 'asc',
-        DESC: 'desc', Desc: 'desc',
-        SORT: 'sort', Sort: 'sort',
+        ASC: 'asc',
+        Asc: 'asc',
+        DESC: 'desc',
+        Desc: 'desc',
+        SORT: 'sort',
+        Sort: 'sort',
     };
     const params = new URLSearchParams();
     for (const [k, v] of url.searchParams) {
@@ -413,10 +413,10 @@ function ipAllowed(ip, opts) {
     const wl = opts.whitelist ?? [];
     const bl = opts.blacklist ?? [];
     if (wl.length > 0) {
-        return wl.some(entry => entry.includes('/') ? ipInCIDR(ip, entry) : entry === ip);
+        return wl.some((entry) => (entry.includes('/') ? ipInCIDR(ip, entry) : entry === ip));
     }
     if (bl.length > 0) {
-        return !bl.some(entry => entry.includes('/') ? ipInCIDR(ip, entry) : entry === ip);
+        return !bl.some((entry) => (entry.includes('/') ? ipInCIDR(ip, entry) : entry === ip));
     }
     return true;
 }
@@ -428,12 +428,10 @@ function ipAllowed(ip, opts) {
 export function ipAccessMiddleware(opts = {}) {
     const whitelistRaw = process.env['IP_WHITELIST'] ?? '';
     const blacklistRaw = process.env['IP_BLACKLIST'] ?? '';
-    const whitelist = opts.whitelist ?? (whitelistRaw ? whitelistRaw.split(',').map(s => s.trim()) : []);
-    const blacklist = opts.blacklist ?? (blacklistRaw ? blacklistRaw.split(',').map(s => s.trim()) : []);
+    const whitelist = opts.whitelist ?? (whitelistRaw ? whitelistRaw.split(',').map((s) => s.trim()) : []);
+    const blacklist = opts.blacklist ?? (blacklistRaw ? blacklistRaw.split(',').map((s) => s.trim()) : []);
     return (next) => async (req) => {
-        const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
-            ?? req.headers.get('x-real-ip')
-            ?? 'unknown';
+        const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? req.headers.get('x-real-ip') ?? 'unknown';
         if (!ipAllowed(ip, { whitelist, blacklist })) {
             return buildErrorResponse(req, Global.Forbidden, 'IP not allowed');
         }
@@ -504,8 +502,11 @@ export const telemetryMiddleware = (next) => async (req) => {
     catch (err) {
         const latencyMs = Date.now() - start;
         console.error(JSON.stringify({
-            level: 'error', msg: 'request panicked',
-            request_id: reqId, method: req.method, latency_ms: latencyMs,
+            level: 'error',
+            msg: 'request panicked',
+            request_id: reqId,
+            method: req.method,
+            latency_ms: latencyMs,
             error: err instanceof Error ? err.message : String(err),
         }));
         return buildErrorResponse(req, Global.Internal, 'unexpected error');
@@ -513,12 +514,28 @@ export const telemetryMiddleware = (next) => async (req) => {
 };
 // --- Context accessors (re-exported for use by handlers) ---
 export const ContextKeys = CTX;
-export function getRequestId(req) { return getCtx(req, CTX.REQUEST_ID); }
-export function getCorrelationId(req) { return getCtx(req, CTX.CORRELATION_ID); }
-export function getUserId(req) { return getCtx(req, CTX.USER_ID); }
-export function getSessionId(req) { return getCtx(req, CTX.SESSION_ID); }
-export function getScopes(req) { return getCtx(req, CTX.SCOPES); }
-export function isAdmin(req) { return getCtx(req, CTX.IS_ADMIN) ?? false; }
-export function isAuthValid(req) { return getCtx(req, CTX.AUTH_VALID) ?? false; }
-export function getClientType(req) { return getCtx(req, CTX.CLIENT_TYPE) ?? CLIENT_TYPE_BROWSER; }
+export function getRequestId(req) {
+    return getCtx(req, CTX.REQUEST_ID);
+}
+export function getCorrelationId(req) {
+    return getCtx(req, CTX.CORRELATION_ID);
+}
+export function getUserId(req) {
+    return getCtx(req, CTX.USER_ID);
+}
+export function getSessionId(req) {
+    return getCtx(req, CTX.SESSION_ID);
+}
+export function getScopes(req) {
+    return getCtx(req, CTX.SCOPES);
+}
+export function isAdmin(req) {
+    return getCtx(req, CTX.IS_ADMIN) ?? false;
+}
+export function isAuthValid(req) {
+    return getCtx(req, CTX.AUTH_VALID) ?? false;
+}
+export function getClientType(req) {
+    return getCtx(req, CTX.CLIENT_TYPE) ?? CLIENT_TYPE_BROWSER;
+}
 //# sourceMappingURL=index.js.map

@@ -4,6 +4,32 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ---
 
+## [0.4.0] — 2026-06-22
+
+### Added
+- **Biome formatter** — tabs, single quotes, trailing commas, 120-char line width, import organization; CI-gated via `format:check`
+- **Config validators** — `isValidARN`, `isValidDomain`, `isValidCpu`, `isValidMemory`, `isValidCapacity`, `isValidEnvironment`, `isValidVersion`, `isValidRegion`, `isValidRegionDeploy`, `isValidAccount`, `isValidTags`, `isValidUpstreamDownstreamUrl`, `validateConfig`
+- **`env` field on `EnvConfig`** — explicit environment identifier (`dev`/`staging`/`prod`), separate from `name` (service name)
+- **`tags` field on `EnvConfig`** — `Record<string, string>` propagated via `cdk.Tags.of(stack).add()`; default configs include `owner`, `managedBy`, `environment`
+- **`createRegionDeploy` helper** — factory for `RegionDeploy` objects
+- **`release.sh` version-match guard** — release fails if CHANGELOG version doesn't match package.json / target version
+- **`Region` type export** — extracted from `RegionDeploy` for reuse
+
+### Changed
+- **`EnvConfig.name`** — now represents the service/app name (defaults to `''`); previously carried the environment value
+- **Default config tag keys** — standardized to lowercase (`owner`, `managedBy`, `environment`) to match `TagsConfig` interface
+- **`TagsConfig`** — expanded with `version`, `tier`, `autoStart`, `dataClassification` fields
+- **`createTags`** — defaults `owner` to `'Komodo Future Solutions'` and `managedBy` to `'cdk'` when called without args
+- **`defaultTags`** — returns `managedBy: 'cdk'` (was `'Komodo Future Solutions'`)
+- **Staging/prod regions** — `us-west-2` now `enabled: true` by default
+
+## [0.3.3] — 2026-06-22
+
+### Changed
+- **FargatePublicService / FargatePrivateService** — extracted shared logic (task def, container, secret grant, auto-scaling, CPU/memory alarms) into `buildFargateService` helper to eliminate duplication
+- **WafWebAcl** — `scope` is now configurable (`'REGIONAL'` | `'CLOUDFRONT'`), defaults to `'REGIONAL'`
+- **MetricFilterAlarm** — `metricValue` and `defaultValue` are now configurable props with existing defaults
+
 ## [0.3.2] — 2026-06-22
 
 ### Added

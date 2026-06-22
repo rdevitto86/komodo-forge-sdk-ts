@@ -17,9 +17,7 @@ export function formatEvent(event, verbose) {
             return '';
     }
     const label = isRuntime ? event.level.toUpperCase() : event.type.toUpperCase();
-    const details = event.details !== undefined
-        ? ' | ' + JSON.stringify(event.details, null, 2).replace(/\n\s*/g, ' ')
-        : '';
+    const details = event.details !== undefined ? ' | ' + JSON.stringify(event.details, null, 2).replace(/\n\s*/g, ' ') : '';
     return `${event.timestamp} [${label}] ${event.message}${details}`;
 }
 //# sourceMappingURL=format.js.map

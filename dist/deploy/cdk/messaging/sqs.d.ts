@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
-import * as sqs from 'aws-cdk-lib/aws-sqs';
-import * as sns from 'aws-cdk-lib/aws-sns';
 import * as kms from 'aws-cdk-lib/aws-kms';
+import * as sns from 'aws-cdk-lib/aws-sns';
+import * as sqs from 'aws-cdk-lib/aws-sqs';
 export interface SqsQueueProps {
     stack: cdk.Stack;
     queueName?: string;

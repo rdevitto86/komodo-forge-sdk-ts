@@ -16,6 +16,7 @@ export interface WafWebAclProps {
     managedRuleGroups?: ManagedRuleGroup[];
     globalRateLimit?: number;
     rateLimitRules?: RateLimitRule[];
+    scope?: 'REGIONAL' | 'CLOUDFRONT';
 }
 export declare class WafWebAcl extends Construct {
     readonly webAcl: wafv2.CfnWebACL;

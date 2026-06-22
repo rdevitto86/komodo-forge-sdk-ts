@@ -1,5 +1,6 @@
-export * from './fargatePublicService.js';
 export * from './fargatePrivateService.js';
-export * from './wafWebAcl.js';
+export * from './fargatePublicService.js';
+export * from './fargateServiceBase.js';
 export * from './metricFilterAlarm.js';
+export * from './wafWebAcl.js';
 //# sourceMappingURL=index.js.map

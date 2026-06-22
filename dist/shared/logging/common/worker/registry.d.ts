@@ -1,5 +1,4 @@
-import type { LogEventType, BaseLogEvent } from '../base.js';
-import type { Transport } from '../base.js';
+import type { BaseLogEvent, LogEventType, Transport } from '../base.js';
 /**
  * Thin proxy returned to each logger class. All methods route through the shared registry.
  * Degradation (worker → fetch) is transparent — callers do not need to check worker state.

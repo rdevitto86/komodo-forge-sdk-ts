@@ -1,6 +1,6 @@
-import { getOrCreateWorker } from '../common/worker/registry.js';
-import { formatEvent } from '../common/format.js';
 import { redact } from '../../redaction/index.js';
+import { formatEvent } from '../common/format.js';
+import { getOrCreateWorker } from '../common/worker/registry.js';
 const LEVEL_WEIGHT = { debug: 1, info: 2, warn: 3, error: 4 };
 /**
  * Runtime logger for application-level events.
@@ -42,7 +42,9 @@ export default class RuntimeLogger {
         RuntimeLogger.#instance = this;
     }
     /** For testing only — clears the singleton so the next constructor call re-initializes. */
-    static _reset() { RuntimeLogger.#instance = null; }
+    static _reset() {
+        RuntimeLogger.#instance = null;
+    }
     /** Local console only. Never shipped remotely regardless of endpoint config. */
     debug(message, details, requestId) {
         if (LEVEL_WEIGHT.debug < this.#minLevel)
@@ -75,8 +77,12 @@ export default class RuntimeLogger {
         if (this.#enableRemote)
             this.#ship(event);
     }
-    flush() { this.#ref.flush('runtime'); }
-    stop() { this.#ref.stop(); }
+    flush() {
+        this.#ref.flush('runtime');
+    }
+    stop() {
+        this.#ref.stop();
+    }
     #build(level, message, details, requestId) {
         const event = {
             timestamp: new Date().toISOString(),

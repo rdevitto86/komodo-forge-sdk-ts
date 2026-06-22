@@ -1,11 +1,9 @@
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from 'node:crypto';
-import { SignJWT, decodeJwt, jwtVerify } from 'jose';
+import { decodeJwt, jwtVerify, SignJWT } from 'jose';
 // --- JWT ---
 const encoder = new TextEncoder();
 export async function signJWT(payload, secret, options) {
-    let builder = new SignJWT(payload)
-        .setProtectedHeader({ alg: 'HS256' })
-        .setIssuedAt();
+    let builder = new SignJWT(payload).setProtectedHeader({ alg: 'HS256' }).setIssuedAt();
     if (options?.expiresIn !== undefined)
         builder = builder.setExpirationTime(options.expiresIn);
     if (options?.issuer !== undefined)
@@ -52,10 +50,7 @@ export function decryptAES256GCM(encrypted, keyHex) {
     const key = Buffer.from(keyHex, 'hex');
     const decipher = createDecipheriv('aes-256-gcm', key, Buffer.from(ivHex, 'hex'), { authTagLength: TAG_BYTES });
     decipher.setAuthTag(Buffer.from(tagHex, 'hex'));
-    return Buffer.concat([
-        decipher.update(Buffer.from(ciphertextHex, 'hex')),
-        decipher.final(),
-    ]).toString('utf8');
+    return Buffer.concat([decipher.update(Buffer.from(ciphertextHex, 'hex')), decipher.final()]).toString('utf8');
 }
 // --- PKCE ---
 /** Generates a random PKCE code verifier (RFC 7636). */
@@ -65,16 +60,15 @@ export const generatePKCEChallenge = (verifier) => createHash('sha256').update(v
 // --- OAuth ---
 // Mirrors komodo-forge-sdk-go/security/oauth/oauth.go
 const ALLOWED_SCOPES = new Set([
-    'read', 'write', 'admin',
-    'checkout:read', 'checkout:write',
+    'read',
+    'write',
+    'admin',
+    'checkout:read',
+    'checkout:write',
     'orders:read',
     'users:profile',
 ]);
-const VALID_GRANT_TYPES = new Set([
-    'client_credentials',
-    'authorization_code',
-    'refresh_token',
-]);
+const VALID_GRANT_TYPES = new Set(['client_credentials', 'authorization_code', 'refresh_token']);
 /**
  * Returns true when every scope in the space- or comma-separated string is
  * either a known scope or a service-to-service scope (prefixed "svc:").
@@ -83,13 +77,16 @@ export function isValidScope(scope) {
     if (!scope)
         return false;
     const parts = scope.replace(/,/g, ' ').split(/\s+/).filter(Boolean);
-    return parts.every(s => s.startsWith('svc:') || ALLOWED_SCOPES.has(s));
+    return parts.every((s) => s.startsWith('svc:') || ALLOWED_SCOPES.has(s));
 }
 /** Returns any scopes in the string that are not recognised. */
 export function getInvalidScopes(scope) {
     if (!scope)
         return [];
-    return scope.replace(/,/g, ' ').split(/\s+/).filter(s => s !== '' && !s.startsWith('svc:') && !ALLOWED_SCOPES.has(s));
+    return scope
+        .replace(/,/g, ' ')
+        .split(/\s+/)
+        .filter((s) => s !== '' && !s.startsWith('svc:') && !ALLOWED_SCOPES.has(s));
 }
 /** Returns true when the grant type is one of the supported OAuth 2.0 flows. */
 export function isValidGrantType(grantType) {

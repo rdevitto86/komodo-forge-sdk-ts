@@ -82,7 +82,7 @@ export class WafWebAcl extends Construct {
         }
         this.webAcl = new wafv2.CfnWebACL(this, 'WebAcl', {
             defaultAction: { allow: {} },
-            scope: 'REGIONAL',
+            scope: props.scope ?? 'REGIONAL',
             visibilityConfig: {
                 sampledRequestsEnabled: true,
                 cloudWatchMetricsEnabled: true,

@@ -13,16 +13,15 @@ import type { BaseLogEvent } from './base.js';
  * Returns an empty string when the event should be suppressed.
  */
 export function formatEvent(event: BaseLogEvent, verbose: boolean): string {
-  const isRuntime = event.type === 'runtime';
+	const isRuntime = event.type === 'runtime';
 
-  if (!verbose) {
-    if (!isRuntime || event.level === 'debug' || event.level === 'info') return '';
-  }
+	if (!verbose) {
+		if (!isRuntime || event.level === 'debug' || event.level === 'info') return '';
+	}
 
-  const label = isRuntime ? event.level.toUpperCase() : event.type.toUpperCase();
-  const details = event.details !== undefined
-    ? ' | ' + JSON.stringify(event.details, null, 2).replace(/\n\s*/g, ' ')
-    : '';
+	const label = isRuntime ? event.level.toUpperCase() : event.type.toUpperCase();
+	const details =
+		event.details !== undefined ? ' | ' + JSON.stringify(event.details, null, 2).replace(/\n\s*/g, ' ') : '';
 
-  return `${event.timestamp} [${label}] ${event.message}${details}`;
+	return `${event.timestamp} [${label}] ${event.message}${details}`;
 }

@@ -17,8 +17,8 @@ export class MetricFilterAlarm extends Construct {
             filterPattern: logs.FilterPattern.literal(props.filterPattern),
             metricNamespace: props.metricNamespace,
             metricName: props.metricName,
-            metricValue: '1',
-            defaultValue: 0,
+            metricValue: props.metricValue ?? '1',
+            defaultValue: props.defaultValue ?? 0,
         });
         this.alarm = new cloudwatch.Alarm(this, 'Alarm', {
             metric: this.metricFilter.metric({ statistic, period }),

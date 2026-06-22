@@ -7,8 +7,7 @@ export const isValidULID = (value) => /^[0-9A-HJKMNP-TV-Z]{26}$/.test(value);
 export function isValidURL(value, allowedProtocols) {
     try {
         const url = new URL(value).protocol.replace(/:$/, '');
-        return (allowedProtocols !== undefined && allowedProtocols.length > 0)
-            ? allowedProtocols.includes(url) : true;
+        return allowedProtocols !== undefined && allowedProtocols.length > 0 ? allowedProtocols.includes(url) : true;
     }
     catch {
         return false;

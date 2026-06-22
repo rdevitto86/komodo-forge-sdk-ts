@@ -1,4 +1,4 @@
-import type { LogLevel, BaseLogEvent, BaseLoggerConfig } from '../common/base.js';
+import type { BaseLogEvent, BaseLoggerConfig, LogLevel } from '../common/base.js';
 export interface RuntimeLoggerConfig extends BaseLoggerConfig {
     /** Minimum level for console + remote output. Defaults to 'warn'. */
     level?: LogLevel;

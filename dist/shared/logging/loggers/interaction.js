@@ -1,7 +1,7 @@
-import { getOrCreateWorker } from '../common/worker/registry.js';
-import { formatEvent } from '../common/format.js';
-import { redact } from '../../redaction/index.js';
 import { getCorrelationId } from '../../http/utils/index.js';
+import { redact } from '../../redaction/index.js';
+import { formatEvent } from '../common/format.js';
+import { getOrCreateWorker } from '../common/worker/registry.js';
 /**
  * Interaction logger for tracking user interactions in the browser.
  *
@@ -40,7 +40,9 @@ export default class InteractionLogger {
         InteractionLogger.#instance = this;
     }
     /** For testing only — clears the singleton so the next constructor call re-initializes. */
-    static _reset() { InteractionLogger.#instance = null; }
+    static _reset() {
+        InteractionLogger.#instance = null;
+    }
     track(action, data, requestId) {
         if (!this.#enabled)
             return;
@@ -67,7 +69,11 @@ export default class InteractionLogger {
             console.debug(formatEvent(event, true));
         this.#ref.send(redact(event));
     }
-    flush() { this.#ref.flush('interaction'); }
-    stop() { this.#ref.stop(); }
+    flush() {
+        this.#ref.flush('interaction');
+    }
+    stop() {
+        this.#ref.stop();
+    }
 }
 //# sourceMappingURL=interaction.js.map

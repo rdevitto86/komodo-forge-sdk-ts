@@ -53,12 +53,12 @@ export function requireEnvBoolean(key) {
 // --- Bulk validation ---
 /** Throws at startup if any of the listed env vars are missing or empty. */
 export function validateRequiredEnv(keys) {
-    const missing = keys.filter(k => {
+    const missing = keys.filter((k) => {
         const v = getRaw(k);
         return v === undefined || v === '';
     });
     if (missing.length > 0) {
-        throw new ConfigError(`Missing required environment variables:\n${missing.map(k => `  - ${k}`).join('\n')}`);
+        throw new ConfigError(`Missing required environment variables:\n${missing.map((k) => `  - ${k}`).join('\n')}`);
     }
 }
 //# sourceMappingURL=utils.js.map

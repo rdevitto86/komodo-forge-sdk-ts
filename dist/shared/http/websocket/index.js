@@ -67,11 +67,24 @@ export class WebSocketClient {
         this.ws?.close(code, reason);
         this.ws = null;
     }
-    onMessage(handler) { this.onMessageHandlers.push(handler); return this; }
-    onClose(handler) { this.onCloseHandlers.push(handler); return this; }
-    onError(handler) { this.onErrorHandlers.push(handler); return this; }
-    get readyState() { return this.ws?.readyState ?? WebSocket.CLOSED; }
-    get isConnected() { return this.readyState === WebSocket.OPEN; }
+    onMessage(handler) {
+        this.onMessageHandlers.push(handler);
+        return this;
+    }
+    onClose(handler) {
+        this.onCloseHandlers.push(handler);
+        return this;
+    }
+    onError(handler) {
+        this.onErrorHandlers.push(handler);
+        return this;
+    }
+    get readyState() {
+        return this.ws?.readyState ?? WebSocket.CLOSED;
+    }
+    get isConnected() {
+        return this.readyState === WebSocket.OPEN;
+    }
     flushQueue() {
         while (this.messageQueue.length > 0 && this.ws?.readyState === WebSocket.OPEN) {
             const msg = this.messageQueue.shift();
@@ -100,7 +113,9 @@ export class WebSocketClient {
         this.reconnectCount++;
         setTimeout(() => {
             if (!this.closed)
-                this.connect().catch(() => { });
+                this.connect().catch(() => {
+                    /* handled by onError */
+                });
         }, delay);
     }
 }

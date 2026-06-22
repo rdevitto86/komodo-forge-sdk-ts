@@ -77,7 +77,7 @@ function degradeToFetch(reg, err) {
     reg.transport = 'fetch';
     markReady(reg); // flush buffered messages through fetch before notifying subscribers
     reg.state = 'degraded';
-    reg.errorHandlers.forEach(h => h(err));
+    reg.errorHandlers.forEach((h) => h(err));
 }
 function handleAck(data) {
     switch (data.directive) {
@@ -125,7 +125,9 @@ async function initNodeWorker(reg) {
             degradeToFetch(reg, err);
         });
         reg.worker = {
-            postMessage: (data) => { wkr.postMessage(data); },
+            postMessage: (data) => {
+                wkr.postMessage(data);
+            },
             terminate: () => wkr.terminate(),
         };
         markReady(reg);

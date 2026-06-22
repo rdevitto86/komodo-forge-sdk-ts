@@ -1,10 +1,10 @@
 import * as cdk from 'aws-cdk-lib';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import * as logs from 'aws-cdk-lib/aws-logs';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
-import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as logs from 'aws-cdk-lib/aws-logs';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 export class LambdaFunctionBuilder {
     props = {};
@@ -108,7 +108,9 @@ export class LambdaFunctionBuilder {
             ...(this.props.description && { description: this.props.description }),
             ...(this.props.environment && { environment: this.props.environment }),
             ...(this.props.layers && { layers: this.props.layers }),
-            ...(this.props.reservedConcurrentExecutions !== undefined && { reservedConcurrentExecutions: this.props.reservedConcurrentExecutions }),
+            ...(this.props.reservedConcurrentExecutions !== undefined && {
+                reservedConcurrentExecutions: this.props.reservedConcurrentExecutions,
+            }),
             ...(this.props.role && { role: this.props.role }),
             ...(this.props.logGroup && { logGroup: this.props.logGroup }),
             ...(this.props.deadLetterQueue && { deadLetterQueue: this.props.deadLetterQueue }),

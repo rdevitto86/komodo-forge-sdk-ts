@@ -14,6 +14,8 @@ export interface MetricFilterAlarmProps {
     metricStatistic?: string;
     comparisonOperator?: cloudwatch.ComparisonOperator;
     treatMissingData?: cloudwatch.TreatMissingData;
+    metricValue?: string;
+    defaultValue?: number;
 }
 export declare class MetricFilterAlarm extends Construct {
     readonly metricFilter: logs.MetricFilter;

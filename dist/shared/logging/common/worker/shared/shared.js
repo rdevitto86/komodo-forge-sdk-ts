@@ -42,7 +42,9 @@ export function createWorkerLogic(post) {
                         timer: null,
                     };
                     if (cfg.flushInterval > 0) {
-                        state.timer = setInterval(() => { void flush(provider); }, cfg.flushInterval);
+                        state.timer = setInterval(() => {
+                            void flush(provider);
+                        }, cfg.flushInterval);
                     }
                     providers.set(provider, state);
                     break;

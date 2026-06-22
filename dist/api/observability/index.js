@@ -7,14 +7,20 @@ export function onShutdown(cleanup) {
     const handle = (signal) => {
         console.log(JSON.stringify({ level: 'info', msg: `received ${signal}, shutting down` }));
         cleanup()
-            .then(() => { process.exit(0); })
+            .then(() => {
+            process.exit(0);
+        })
             .catch((err) => {
             console.error(JSON.stringify({ level: 'error', msg: 'shutdown error', error: String(err) }));
             process.exit(1);
         });
     };
-    process.once('SIGTERM', () => { handle('SIGTERM'); });
-    process.once('SIGINT', () => { handle('SIGINT'); });
+    process.once('SIGTERM', () => {
+        handle('SIGTERM');
+    });
+    process.once('SIGINT', () => {
+        handle('SIGINT');
+    });
 }
 const _counters = new Map();
 const _gauges = new Map();

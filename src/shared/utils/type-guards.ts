@@ -4,5 +4,5 @@ export const isNonNullish = <T>(value: T | null | undefined): value is T => valu
 
 /** Exhaustive switch guard — throws at runtime with the unexpected value. */
 export const assertNever = (value: never): never => {
-  throw new Error(`Unexpected value: ${JSON.stringify(value)}`);
+	throw new Error(`Unexpected value: ${JSON.stringify(value)}`);
 };

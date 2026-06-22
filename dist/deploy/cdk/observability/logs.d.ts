@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
-import * as logs from 'aws-cdk-lib/aws-logs';
 import * as kms from 'aws-cdk-lib/aws-kms';
+import * as logs from 'aws-cdk-lib/aws-logs';
 export interface LogGroupProps {
     stack: cdk.Stack;
     logGroupName?: string;
