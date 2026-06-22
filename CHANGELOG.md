@@ -4,6 +4,12 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ---
 
+## [0.3.1] — 2026-06-22
+
+### Fixed
+- **Observability barrel export** — `src/deploy/cdk/observability/index.ts` was empty; now re-exports `alarms` and `logs` modules
+- **Missing package exports** — added `./cdk` barrel export and `./cdk/constants` export to package.json
+
 ## [0.3.0] — 2026-06-22
 
 ### Added
@@ -18,10 +24,6 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 - **oxlint** — Fast Rust-based linter configuration replacing ESLint
 - **CHANGELOG.md** — Added changelog to track project changes
 - Package exports for CDK deployment modules (`./cdk/*`)
-
-### Fixed
-- **Observability barrel export** — `src/deploy/cdk/observability/index.ts` was empty; now re-exports `alarms` and `logs` modules
-- **Missing package exports** — added `./cdk` barrel export and `./cdk/constants` export to package.json
 
 ### Changed
 - Replaced ESLint with oxlint for faster linting (removed eslint.config.mts and src/shared/eslint/)
