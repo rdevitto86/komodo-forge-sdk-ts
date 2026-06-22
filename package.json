@@ -39,17 +39,14 @@
     "globals": "^17.6.0",
     "jose": "^6.2.3"
   },
-  "peerDependencies": {
-    "eslint": ">=9.0.0"
-  },
   "devDependencies": {
     "@types/fast-redact": "^3.0.4",
-    "@types/node": "^25.9.2",
-    "@vitest/coverage-v8": "^4.1.8",
+    "@types/node": "^26.0.0",
+    "@vitest/coverage-v8": "^4.1.9",
     "oxlint": "^1.70.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.9"
   },
   "exports": {
     ".": {

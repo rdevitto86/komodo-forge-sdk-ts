@@ -1,0 +1,3 @@
+export {};
+// TODO - we'll likely have constructs for common Komodo infra like DynamoDB, S3, Fargate services, etc.
+//# sourceMappingURL=index.js.map

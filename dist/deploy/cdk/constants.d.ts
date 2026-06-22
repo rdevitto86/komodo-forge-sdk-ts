@@ -1,0 +1,10 @@
+export declare const DEFAULT_REGION_EAST = "us-east-2";
+export declare const DEFAULT_REGION_WEST = "us-west-2";
+export declare const ENV_LOCAL = "local";
+export declare const ENV_DEV = "dev";
+export declare const ENV_STAGING = "staging";
+export declare const ENV_PROD = "prod";
+export declare const DEFAULT_ACCOUNT_DEV = "123456789012";
+export declare const DEFAULT_ACCOUNT_STAGING = "123456789012";
+export declare const DEFAULT_ACCOUNT_PROD = "123456789012";
+//# sourceMappingURL=constants.d.ts.map
