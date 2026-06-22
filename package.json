@@ -1,6 +1,6 @@
 {
   "name": "@komodo-forge-sdk/typescript",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "An internal library for Komodo APIs built using Node",
   "type": "module",
   "main": "./dist/index.js",
@@ -93,5 +93,8 @@
   "files": [
     "dist",
     "README.md"
-  ]
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  }
 }

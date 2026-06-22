@@ -4,6 +4,16 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ---
 
+## [0.3.2] — 2026-06-22
+
+### Added
+- **CDK Constructs** — Higher-level reusable infrastructure constructs:
+  - `FargatePublicService` — complete public-facing Fargate service with ALB, SGs, auto-scaling, and standard alarms
+  - `FargatePrivateService` — VPC-internal Fargate service with SGs, auto-scaling, and standard alarms
+  - `WafWebAcl` — WAF WebACL with managed rule groups, global rate limiting, and path-scoped rate limits
+  - `MetricFilterAlarm` — combined CloudWatch Logs metric filter and alarm
+- Tests for all new constructs
+
 ## [0.3.1] — 2026-06-22
 
 ### Fixed
