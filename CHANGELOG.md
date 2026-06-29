@@ -11,7 +11,7 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ### Changed
 - **`DEFAULT_ACCOUNT_DEV` / `DEFAULT_ACCOUNT_STAGING`** — consolidated into `DEFAULT_ACCOUNT_NONPROD` (`122703641091`); both dev and staging default configs now reference it
-- **`.gitignore`** — expanded to cover build artifacts (`dist/`, `*.tsbuildinfo`), env file patterns, cache dirs (`.cache/`, `.pnpm-store/`), OS artifacts, IDE files (`.idea/`, `.vscode/`), and AI tool files (`AGENTS.md`, `CLAUDE.md`, `.mcp.json`)
+- **`.gitignore`** — expanded to cover env file patterns, cache dirs (`.cache/`, `.pnpm-store/`), OS artifacts, IDE files (`.idea/`, `.vscode/`), and AI tool files (`AGENTS.md`, `CLAUDE.md`, `.mcp.json`)
 
 ---
 
