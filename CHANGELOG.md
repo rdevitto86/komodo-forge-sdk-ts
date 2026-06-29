@@ -4,6 +4,17 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ---
 
+## [0.4.1] — 2026-06-29
+
+### Removed
+- **`FargatePublicService`, `FargatePrivateService`, `FargateServiceBase`** — deleted; each API owns its own CDK Fargate wiring directly
+
+### Changed
+- **`DEFAULT_ACCOUNT_DEV` / `DEFAULT_ACCOUNT_STAGING`** — consolidated into `DEFAULT_ACCOUNT_NONPROD` (`122703641091`); both dev and staging default configs now reference it
+- **`.gitignore`** — expanded to cover build artifacts (`dist/`, `*.tsbuildinfo`), env file patterns, cache dirs (`.cache/`, `.pnpm-store/`), OS artifacts, IDE files (`.idea/`, `.vscode/`), and AI tool files (`AGENTS.md`, `CLAUDE.md`, `.mcp.json`)
+
+---
+
 ## [0.4.0] — 2026-06-22
 
 ### Added

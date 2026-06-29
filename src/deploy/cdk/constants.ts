@@ -12,8 +12,7 @@ export const US_EAST_2 = 'us-east-2';
 export const US_WEST_1 = 'us-west-1';
 export const US_WEST_2 = 'us-west-2';
 
-export const DEFAULT_ACCOUNT_DEV = '123456789012';
-export const DEFAULT_ACCOUNT_STAGING = '123456789012';
+export const DEFAULT_ACCOUNT_NONPROD = '122703641091';
 export const DEFAULT_ACCOUNT_PROD = '123456789012';
 
 export const DEFAULT_EVAL_RULES_PATH = '/app/config/validation_rules.yaml';

@@ -1,24 +1,60 @@
 # Node
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Sensitive
+# Build
+dist/
+out/
+*.tsbuildinfo
+
+# Environment / secrets
 .env
+.env.*
+!.env.example
 .env.local
 .secrets
 .secrets.local
 
-#AI/Agents
-.claude/
-.claude-workspace/
-TODO.md
-*/TODO.md
-**/TODO.md
-
-# Testing
-coverage/
+# Cache
+.cache/
+.eslintcache
+.stylelintcache
+.npm/
+.pnpm-store/
 
 # Logs
 *.log
+logs/
+
+# Testing
+coverage/
+.nyc_output/
 
 # OS
 .DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.history/
+
+# AI
+AGENTS.md
+CLAUDE.md
+.claude
+.claude-workspace/
+MEMORY.md
+TODO.md
+**/TODO.md
+.mcp.json

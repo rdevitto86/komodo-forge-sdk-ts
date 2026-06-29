@@ -1,6 +1,6 @@
 {
   "name": "@komodo-forge-sdk/typescript",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "An internal library for Komodo APIs built using Node",
   "type": "module",
   "main": "./dist/index.js",
@@ -38,15 +38,15 @@
     "aws-cdk-lib": "^2.260.0",
     "constructs": "^10.6.0",
     "fast-redact": "^3.5.0",
-    "globals": "^17.6.0",
+    "globals": "^17.7.0",
     "jose": "^6.2.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.0",
+    "@biomejs/biome": "^2.5.1",
     "@types/fast-redact": "^3.0.4",
-    "@types/node": "^26.0.0",
+    "@types/node": "^26.0.1",
     "@vitest/coverage-v8": "^4.1.9",
-    "oxlint": "^1.70.0",
+    "oxlint": "^1.71.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
     "vitest": "^4.1.9"

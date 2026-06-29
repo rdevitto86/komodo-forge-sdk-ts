@@ -1,4 +1,4 @@
-import { DEFAULT_ACCOUNT_DEV, DEFAULT_ACCOUNT_PROD, DEFAULT_ACCOUNT_STAGING, DEFAULT_REGION_EAST, DEFAULT_REGION_WEST, ENV_DEV, ENV_PROD, ENV_STAGING, } from '../constants.js';
+import { DEFAULT_ACCOUNT_NONPROD, DEFAULT_ACCOUNT_PROD, DEFAULT_REGION_EAST, DEFAULT_REGION_WEST, ENV_DEV, ENV_PROD, ENV_STAGING, } from '../constants.js';
 export * from './validators.js';
 export const createEmptyConfig = () => ({
     name: '',
@@ -18,7 +18,7 @@ export const createEmptyConfig = () => ({
 export const defaultDevConfig = () => ({
     name: '',
     env: ENV_DEV,
-    account: DEFAULT_ACCOUNT_DEV,
+    account: DEFAULT_ACCOUNT_NONPROD,
     cpu: 256,
     memory: 512,
     minCapacity: 1,
@@ -38,7 +38,7 @@ export const defaultDevConfig = () => ({
 export const defaultStgConfig = () => ({
     name: '',
     env: ENV_STAGING,
-    account: DEFAULT_ACCOUNT_STAGING,
+    account: DEFAULT_ACCOUNT_NONPROD,
     cpu: 512,
     memory: 1024,
     minCapacity: 1,
