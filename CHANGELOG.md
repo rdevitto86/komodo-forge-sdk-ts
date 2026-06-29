@@ -4,6 +4,13 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ---
 
+## [0.4.2] — 2026-10-13
+
+### Fixed
+- **Release script** — fixed commit check to skip commit if nothing is staged
+
+---
+
 ## [0.4.1] — 2026-06-29
 
 ### Removed
