@@ -116,7 +116,9 @@ if git ls-files --error-unmatch dist/ &>/dev/null 2>&1; then
   git add dist/
 fi
 
-git commit -m "chore: release v$new_version"
+if ! git diff --cached --quiet; then
+  git commit -m "chore: release v$new_version"
+fi
 git tag "v$new_version"
 git push origin "v$new_version"
 log_success "Tagged and pushed v$new_version"
