@@ -1,0 +1,9 @@
+export declare const SES_CONFIGURATION_SET_PREFIX = "komodo-";
+export declare const SES_CONFIGURATION_SET_SUFFIX_STG = "-stg";
+export declare const SES_CONFIGURATION_SET_SUFFIX_PROD = "-prod";
+export declare const SES_MAX_SEND_RATE = 14;
+export declare const SES_MAX_SEND_QUOTA = 200;
+export declare const SES_EMAIL_TYPE_TRANSACTIONAL = "Transactional";
+export declare const SES_EMAIL_TYPE_MARKETING = "Marketing";
+export declare const SES_REPUTATION_THRESHOLD_HEALTHY = 0.7;
+//# sourceMappingURL=constants.d.ts.map

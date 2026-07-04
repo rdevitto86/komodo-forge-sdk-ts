@@ -1,0 +1,10 @@
+export declare const LAMBDA_ARCHITECTURE_X86_64 = "x86_64";
+export declare const LAMBDA_ARCHITECTURE_ARM64 = "arm64";
+export declare const LAMBDA_RUNTIME_NODEJS_LATEST = "nodejs26.x";
+export declare const LAMBDA_MEMORY_MIN = 128;
+export declare const LAMBDA_MEMORY_MAX = 10240;
+export declare const LAMBDA_MEMORY_DEFAULT = 256;
+export declare const LAMBDA_TIMEOUT_MIN = 1;
+export declare const LAMBDA_TIMEOUT_MAX = 900;
+export declare const LAMBDA_TIMEOUT_DEFAULT = 30;
+//# sourceMappingURL=constants.d.ts.map

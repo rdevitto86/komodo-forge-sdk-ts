@@ -1,0 +1,12 @@
+export declare const AURORA_CLUSTER_PREFIX = "komodo-";
+export declare const AURORA_CLUSTER_SUFFIX_STG = "-stg";
+export declare const AURORA_CLUSTER_SUFFIX_PROD = "-prod";
+export declare const AURORA_ENGINE_POSTGRES = "aurora-postgresql";
+export declare const AURORA_ENGINE_MYSQL = "aurora-mysql";
+export declare const AURORA_INSTANCE_CLASS_SERVERLESS_V2 = "db.serverless";
+export declare const AURORA_INSTANCE_CLASS_MEMORY_OPTIMIZED = "memory.optimized";
+export declare const AURORA_INSTANCE_CLASS_BURSTABLE = "burstable";
+export declare const DB_PORT_POSTGRES = 5432;
+export declare const DB_PORT_MYSQL = 3306;
+export declare const DB_NAME_DEFAULT = "komodo";
+//# sourceMappingURL=constants.d.ts.map

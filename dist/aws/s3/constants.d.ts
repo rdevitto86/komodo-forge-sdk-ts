@@ -1,0 +1,13 @@
+export declare const S3_BUCKET_PREFIX = "komodo-";
+export declare const S3_BUCKET_SUFFIX_STG = "-stg";
+export declare const S3_BUCKET_SUFFIX_PROD = "-prod";
+export declare const S3_STORAGE_CLASS_STANDARD = "STANDARD";
+export declare const S3_STORAGE_CLASS_IA = "STANDARD_IA";
+export declare const S3_STORAGE_CLASS_GLACIER = "GLACIER";
+export declare const S3_STORAGE_CLASS_DEEP_ARCHIVE = "DEEP_ARCHIVE";
+export declare const S3_LIFECYCLE_TRANSITION_DAYS_IA = 30;
+export declare const S3_LIFECYCLE_TRANSITION_DAYS_GLACIER = 90;
+export declare const S3_LIFECYCLE_EXPIRY_DAYS = 365;
+export declare const S3_VERSIONING_ENABLED = "Enabled";
+export declare const S3_VERSIONING_SUSPENDED = "Suspended";
+//# sourceMappingURL=constants.d.ts.map

@@ -1,0 +1,14 @@
+export declare const CLOUDFRONT_DISTRIBUTION_PREFIX = "komodo-";
+export declare const CLOUDFRONT_DISTRIBUTION_SUFFIX_STG = "-stg";
+export declare const CLOUDFRONT_DISTRIBUTION_SUFFIX_PROD = "-prod";
+export declare const CLOUDFRONT_CACHE_POLICY_CACHING_OPTIMIZED = "658327ea-f89d-4fab-a63d-7e88639e58f6";
+export declare const CLOUDFRONT_CACHE_POLICY_CACHING_DISABLED = "4135ea2d-9dfb-405a-bfdf-b4ce1d197caa";
+export declare const CLOUDFRONT_ORIGIN_POLICY_ALL_VIEWER = "216adef6-5c7f-47e4-b989-5492eafa07d3";
+export declare const CLOUDFRONT_ORIGIN_POLICY_NONE = "b689b0a8-53d3-4076-9889-07ccf5b35edd";
+export declare const CLOUDFRONT_DEFAULT_TTL = 86400;
+export declare const CLOUDFRONT_MIN_TTL = 0;
+export declare const CLOUDFRONT_MAX_TTL = 31536000;
+export declare const CLOUDFRONT_PRICE_CLASS_100 = "PriceClass_100";
+export declare const CLOUDFRONT_PRICE_CLASS_200 = "PriceClass_200";
+export declare const CLOUDFRONT_PRICE_CLASS_ALL = "PriceClass_All";
+//# sourceMappingURL=constants.d.ts.map

@@ -3,13 +3,26 @@ import {
 	DEFAULT_ACCOUNT_PROD,
 	DEFAULT_REGION_EAST,
 	DEFAULT_REGION_WEST,
-	type AWSRegion,
+	REGIONS,
 } from '../../constants.js';
-import { ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
+import {
+	ENV_DEV,
+	ENV_STAGING,
+	ENV_PROD,
+	KOMODO_NAME_FULL,
+	CANARY_BLUE,
+	CANARY_GREEN,
+	CICD_TOOL_CDK,
+	CICD_TOOL_TERRAFORM,
+} from '../../../constants.js';
 
 export * from './validators.js';
+
+export type RegionKey = keyof typeof REGIONS;
+export type Region = (typeof REGIONS)[RegionKey] | '';
+
 export interface RegionDeploy {
-	region: AWSRegion;
+	region: Region;
 	suffix: string;
 	enabled: boolean;
 }
@@ -69,8 +82,8 @@ export const defaultDevConfig = (): EnvConfig => ({
 		enabled: true,
 	}],
 	tags: {
-		owner: 'Komodo Future Solutions',
-		managedBy: 'cdk',
+		owner: KOMODO_NAME_FULL,
+		managedBy: CICD_TOOL_CDK,
 		environment: ENV_DEV,
 	},
 });
@@ -94,8 +107,8 @@ export const defaultStgConfig = (): EnvConfig => ({
 		{ region: DEFAULT_REGION_WEST, suffix: 'west', enabled: true },
 	],
 	tags: {
-		owner: 'Komodo Future Solutions',
-		managedBy: 'cdk',
+		owner: KOMODO_NAME_FULL,
+		managedBy: CICD_TOOL_CDK,
 		environment: ENV_STAGING,
 	},
 });
@@ -118,35 +131,39 @@ export const defaultProdConfig = (): EnvConfig => ({
 		{ region: DEFAULT_REGION_WEST, suffix: 'west', enabled: true },
 	],
 	tags: {
-		owner: 'Komodo Future Solutions',
-		managedBy: 'cdk',
+		owner: KOMODO_NAME_FULL,
+		managedBy: CICD_TOOL_CDK,
 		environment: ENV_PROD,
 	},
 });
 
-export const createRegionDeploy = (region: AWSRegion, suffix: string, enabled: boolean): RegionDeploy => ({
+export const createRegionDeploy = (region: Region, suffix: string, enabled: boolean): RegionDeploy => ({
 	region,
 	suffix,
 	enabled,
 });
 
+export type DataClassificationTag = 'public' | 'internal' | 'confidential' | 'pii' | 'restricted' | 'critical' | string;
+export type AutoStartTag = 'true' | 'false' | 'yes' | 'no';
+export type TierTag = 'standard' | 'high' | 'critical' | string;
+
 export interface TagsConfig {
 	project?: string;
-	owner: 'Komodo Future Solutions' | string;
+	owner: typeof KOMODO_NAME_FULL | string;
 	environment?: typeof ENV_DEV | typeof ENV_STAGING | typeof ENV_PROD | string;
 	costCenter?: string;
-	managedBy: 'cdk' | 'terraform' | string;
+	managedBy: typeof CICD_TOOL_CDK | typeof CICD_TOOL_TERRAFORM | string;
 	version?: string;
-	tier?: 'standard' | 'high' | 'critical' | string;
-	autoStart?: 'true' | 'false' | 'yes' | 'no';
-	dataClassification?: 'public' | 'internal' | 'confidential' | 'pii' | 'restricted' | 'critical' | string;
+	tier?: TierTag;
+	autoStart?: AutoStartTag;
+	dataClassification?: DataClassificationTag;
 }
 
 export const createTags = (config?: TagsConfig): Record<string, string> => ({
 	project: config?.project || '',
-	owner: config?.owner || 'Komodo Future Solutions',
+	owner: config?.owner || KOMODO_NAME_FULL,
 	environment: config?.environment || '',
-	managedBy: config?.managedBy || 'cdk',
+	managedBy: config?.managedBy || CICD_TOOL_CDK,
 	costCenter: config?.costCenter || '',
 	version: config?.version || '',
 	tier: config?.tier || '',
@@ -155,10 +172,10 @@ export const createTags = (config?: TagsConfig): Record<string, string> => ({
 });
 
 export const defaultTags = (): Record<string, string> => ({
-	owner: 'Komodo Future Solutions',
-	managedBy: 'cdk',
+	owner: KOMODO_NAME_FULL,
+	managedBy: CICD_TOOL_CDK,
 });
 
-export type DeployColor = 'blue' | 'green';
+export type DeployColor = typeof CANARY_BLUE | typeof CANARY_GREEN;
 
-export const resolveDeployColor = (): DeployColor => (process.env.DEPLOY_COLOR === 'green' ? 'green' : 'blue');
+export const resolveDeployColor = (): DeployColor => (process.env.DEPLOY_COLOR === 'green' ? CANARY_GREEN : CANARY_BLUE);

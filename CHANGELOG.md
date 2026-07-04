@@ -4,6 +4,16 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ---
 
+## [0.5.2] — 2026-07-04
+
+### Added
+- **`src/constants.ts`** — new Komodo-branding constants (`KOMODO_NAMESPACE`, `KOMODO_NAMESPACE_SHORT`, `KOMODO_NAME_FULL`, `KOMODO_NAME_SHORT`, `KOMODO_LEGAL_TYPE`) and app-default constants (`DEFAULT_HEALTH_CHECK_PATH`, `DEFAULT_EVAL_RULES_PATH`, `DEFAULT_HEALTH_CHECK_COMMAND`, `DEFAULT_APP_VERSION`)
+- **`src/aws/constants.ts`** — `DEFAULT_REDIS_PORT`, `WAF_MANAGED_RULE_COMMON`, `WAF_MANAGED_RULE_KNOWN_BAD_INPUTS`, `CLOUDWATCH_NAMESPACE_ALB`, and `METRIC_TARGET_RESPONSE_TIME`
+
+### Changed
+- **BREAKING: `aws/constants.ts` region exports renamed** — `AWS_REGIONS` → `REGIONS`, every `AWS_REGION_*` constant → `REGION_*` (e.g. `AWS_REGION_EAST1` → `REGION_EAST1`), and the exported types `AWSRegion`/`AWSRegionKey` → `Region`/`RegionKey`; `aws/cdk/config/index.ts` updated to import `Region` from the renamed module
+- **BREAKING: namespace exports renamed** — `src/index.ts`'s `export * as constants` → `export * as globalConstants`, and `src/aws/index.ts`'s `export * as constants` → `export * as awsConstants`
+
 ## [0.5.1] — 2026-07-04
 
 ### Added

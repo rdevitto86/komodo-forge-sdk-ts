@@ -1,0 +1,10 @@
+export declare const SQS_QUEUE_PREFIX = "komodo-";
+export declare const SQS_QUEUE_SUFFIX_STG = "-stg";
+export declare const SQS_QUEUE_SUFFIX_PROD = "-prod";
+export declare const SQS_QUEUE_SUFFIX_DLQ = "-dlq";
+export declare const SQS_DEFAULT_VISIBILITY_TIMEOUT_SECONDS = 30;
+export declare const SQS_DEFAULT_MESSAGE_RETENTION_SECONDS = 345600;
+export declare const SQS_DEFAULT_RECEIVE_WAIT_TIME_SECONDS = 20;
+export declare const SQS_DEFAULT_MAX_RECEIVE_COUNT = 3;
+export declare const SQS_MAX_MESSAGE_SIZE_BYTES = 262144;
+//# sourceMappingURL=constants.d.ts.map

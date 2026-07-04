@@ -1,0 +1,13 @@
+export declare const SNS_TOPIC_PREFIX = "komodo-";
+export declare const SNS_TOPIC_SUFFIX_STG = "-stg";
+export declare const SNS_TOPIC_SUFFIX_PROD = "-prod";
+export declare const SNS_PROTOCOL_HTTP = "http";
+export declare const SNS_PROTOCOL_HTTPS = "https";
+export declare const SNS_PROTOCOL_EMAIL = "email";
+export declare const SNS_PROTOCOL_EMAIL_JSON = "email-json";
+export declare const SNS_PROTOCOL_SQS = "sqs";
+export declare const SNS_PROTOCOL_LAMBDA = "lambda";
+export declare const SNS_MESSAGE_TYPE_STRING = "String";
+export declare const SNS_MESSAGE_TYPE_NUMBER = "Number";
+export declare const SNS_MESSAGE_TYPE_BINARY = "Binary";
+//# sourceMappingURL=constants.d.ts.map

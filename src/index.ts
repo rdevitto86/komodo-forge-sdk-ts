@@ -6,4 +6,4 @@ export * as redaction from './redaction/index.js';
 export * as security from './security/index.js';
 export * as utils from './utils/index.js';
 
-export * as constants from './constants.js';
+export * as globalConstants from './constants.js';

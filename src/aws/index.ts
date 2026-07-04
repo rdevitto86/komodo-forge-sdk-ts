@@ -10,4 +10,4 @@ export * as ses from './ses/index.js';
 export * as sns from './sns/index.js';
 export * as sqs from './sqs/index.js';
 
-export * as constants from './constants.js';
+export * as awsConstants from './constants.js';

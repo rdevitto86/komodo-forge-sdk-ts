@@ -1,5 +1,5 @@
-import { DEFAULT_ACCOUNT_NONPROD, DEFAULT_ACCOUNT_PROD, DEFAULT_REGION_EAST, DEFAULT_REGION_WEST, } from '../../constants.js';
-import { ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
+import { DEFAULT_ACCOUNT_NONPROD, DEFAULT_ACCOUNT_PROD, DEFAULT_REGION_EAST, DEFAULT_REGION_WEST, REGIONS, } from '../../constants.js';
+import { ENV_DEV, ENV_STAGING, ENV_PROD, KOMODO_NAME_FULL, CANARY_BLUE, CANARY_GREEN, CICD_TOOL_CDK, CICD_TOOL_TERRAFORM, } from '../../../constants.js';
 export * from './validators.js';
 export const createEmptyConfig = () => ({
     name: '',
@@ -35,8 +35,8 @@ export const defaultDevConfig = () => ({
             enabled: true,
         }],
     tags: {
-        owner: 'Komodo Future Solutions',
-        managedBy: 'cdk',
+        owner: KOMODO_NAME_FULL,
+        managedBy: CICD_TOOL_CDK,
         environment: ENV_DEV,
     },
 });
@@ -59,8 +59,8 @@ export const defaultStgConfig = () => ({
         { region: DEFAULT_REGION_WEST, suffix: 'west', enabled: true },
     ],
     tags: {
-        owner: 'Komodo Future Solutions',
-        managedBy: 'cdk',
+        owner: KOMODO_NAME_FULL,
+        managedBy: CICD_TOOL_CDK,
         environment: ENV_STAGING,
     },
 });
@@ -82,8 +82,8 @@ export const defaultProdConfig = () => ({
         { region: DEFAULT_REGION_WEST, suffix: 'west', enabled: true },
     ],
     tags: {
-        owner: 'Komodo Future Solutions',
-        managedBy: 'cdk',
+        owner: KOMODO_NAME_FULL,
+        managedBy: CICD_TOOL_CDK,
         environment: ENV_PROD,
     },
 });
@@ -94,9 +94,9 @@ export const createRegionDeploy = (region, suffix, enabled) => ({
 });
 export const createTags = (config) => ({
     project: config?.project || '',
-    owner: config?.owner || 'Komodo Future Solutions',
+    owner: config?.owner || KOMODO_NAME_FULL,
     environment: config?.environment || '',
-    managedBy: config?.managedBy || 'cdk',
+    managedBy: config?.managedBy || CICD_TOOL_CDK,
     costCenter: config?.costCenter || '',
     version: config?.version || '',
     tier: config?.tier || '',
@@ -104,8 +104,8 @@ export const createTags = (config) => ({
     dataClassification: config?.dataClassification || '',
 });
 export const defaultTags = () => ({
-    owner: 'Komodo Future Solutions',
-    managedBy: 'cdk',
+    owner: KOMODO_NAME_FULL,
+    managedBy: CICD_TOOL_CDK,
 });
-export const resolveDeployColor = () => (process.env.DEPLOY_COLOR === 'green' ? 'green' : 'blue');
+export const resolveDeployColor = () => (process.env.DEPLOY_COLOR === 'green' ? CANARY_GREEN : CANARY_BLUE);
 //# sourceMappingURL=index.js.map
