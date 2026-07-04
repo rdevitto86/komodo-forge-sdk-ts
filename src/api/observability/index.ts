@@ -1,8 +1,8 @@
 // Observability helpers — health, metrics, graceful shutdown.
 // Mirrors komodo-forge-sdk-go/http/handlers and server/server.go.
 
-export type { HealthCheckResult } from '../../shared/http/handlers/health/index.js';
-export { healthHandler, readinessHandler } from '../../shared/http/handlers/health/index.js';
+export type { HealthCheckResult } from '../http/handlers/health/index.js';
+export { healthHandler, readinessHandler } from '../http/handlers/health/index.js';
 
 // --- Graceful Shutdown ---
 

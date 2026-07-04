@@ -3,23 +3,23 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     include: [
-      'src/shared/logging/**/*.test.ts',
+      'src/logging/**/*.test.ts',
       'src/aws/cdk/**/*.test.ts',
     ],
     exclude: [
-      'src/shared/logging/logging.test.ts',
+      'src/logging/logging.test.ts',
     ],
     environment: 'node',
     coverage: {
       provider: 'v8',
       include: [
-        'src/shared/logging/**/*.ts',
+        'src/logging/**/*.ts',
         'src/aws/cdk/**/*.ts',
       ],
       exclude: [
         'src/**/*.test.ts',
-        'src/shared/logging/common/worker/browser/browser.ts',
-        'src/shared/logging/common/worker/node/node.ts',
+        'src/logging/common/worker/browser/browser.ts',
+        'src/logging/common/worker/node/node.ts',
       ],
       thresholds: {
         lines: 80,

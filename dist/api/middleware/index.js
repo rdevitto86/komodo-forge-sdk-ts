@@ -3,8 +3,8 @@
 //
 // Middleware pattern: (next: Handler) => Handler
 // Use `chain()` to compose multiple middlewares onto a single handler.
-import { Auth, buildErrorResponse, Global } from '../../shared/http/errors/index.js';
-import { verifyJWT } from '../../shared/security/index.js';
+import { Auth, buildErrorResponse, Global } from '../http/errors/index.js';
+import { verifyJWT } from '../../security/index.js';
 /** Per-request context stored in a WeakMap so it's GC'd when the Request is released. */
 const _ctx = new WeakMap();
 const CTX = {

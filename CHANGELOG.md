@@ -42,6 +42,12 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ### Changed
 - **AWS code consolidated under `src/aws/`** — `src/deploy/cdk/` moved to `src/aws/cdk/`, and `src/api/aws/*` (`aurora`, `cloudfront`, `cloudwatch`, `dynamodb`, `lambda`, `s3`, `secrets-manager`, `ses`, `sns`, `sqs`) moved up to top-level `src/aws/*`, so all AWS-specific SDK code now lives under one `src/aws/` root; `package.json` exports gained `"./aws"` / `"./aws/*"` and lost `"./cdk"` / `"./cdk/*"`
+- **`src/shared/` split up and deleted** — `logging`, `redaction`, `security`, and `utils` moved up to top-level `src/*` roots alongside `api`, `aws`, `gcp`; `package.json` exports gained `"./logging"`, `"./redaction"`, `"./security"`, `"./utils"` and lost `"./shared"` / `"./shared/*"`
+- **`http/errors` and `http/handlers/health` moved into `src/api/http/`** — the only consumer of either was `/api`, so they no longer sit in a shared root folder implying reuse that didn't exist; `src/api/index.ts` gained an `http` barrel. Root `src/http/` now holds only the genuinely generic, currently-unused `client` (fetch wrapper) and `websocket`; `package.json` exports kept `"./http"` / `"./http/*"` for those
+- **`http/utils`'s `getCorrelationId` moved into `src/logging/common/correlation.ts`** — it had exactly one caller (logging's clickstream/interaction loggers), so logging no longer imports across into a separate root folder for it
+
+### Removed
+- **`src/ui/` deleted** — was a stub (empty `services/index.ts`, empty `utils/browser.ts`, only real content was `utils/pagination.ts`, which wasn't even wired into the module's own barrel); `package.json` lost `"./ui"` / `"./ui/*"`, and the root `src/index.ts` no longer re-exports it
 
 ---
 

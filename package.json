@@ -72,21 +72,33 @@
       "types": "./dist/aws/*/index.d.ts",
       "import": "./dist/aws/*/index.js"
     },
-    "./client": {
-      "types": "./dist/client/index.d.ts",
-      "import": "./dist/client/index.js"
+    "./http": {
+      "types": "./dist/http/index.d.ts",
+      "import": "./dist/http/index.js"
     },
-    "./client/*": {
-      "types": "./dist/client/*/index.d.ts",
-      "import": "./dist/client/*/index.js"
+    "./http/*": {
+      "types": "./dist/http/*/index.d.ts",
+      "import": "./dist/http/*/index.js"
     },
-    "./shared": {
-      "types": "./dist/shared/index.d.ts",
-      "import": "./dist/shared/index.js"
+    "./logging": {
+      "types": "./dist/logging/index.d.ts",
+      "import": "./dist/logging/index.js"
     },
-    "./shared/*": {
-      "types": "./dist/shared/*/index.d.ts",
-      "import": "./dist/shared/*/index.js"
+    "./logging/*": {
+      "types": "./dist/logging/*/index.d.ts",
+      "import": "./dist/logging/*/index.js"
+    },
+    "./redaction": {
+      "types": "./dist/redaction/index.d.ts",
+      "import": "./dist/redaction/index.js"
+    },
+    "./security": {
+      "types": "./dist/security/index.d.ts",
+      "import": "./dist/security/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
     }
   },
   "files": [

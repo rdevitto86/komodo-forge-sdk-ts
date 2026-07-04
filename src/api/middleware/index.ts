@@ -4,9 +4,9 @@
 // Middleware pattern: (next: Handler) => Handler
 // Use `chain()` to compose multiple middlewares onto a single handler.
 
-import { Auth, buildErrorResponse, Global } from '../../shared/http/errors/index.js';
-import type { JWTPayload } from '../../shared/security/index.js';
-import { verifyJWT } from '../../shared/security/index.js';
+import { Auth, buildErrorResponse, Global } from '../http/errors/index.js';
+import type { JWTPayload } from '../../security/index.js';
+import { verifyJWT } from '../../security/index.js';
 
 // --- Core types ---
 
