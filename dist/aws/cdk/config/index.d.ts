@@ -1,16 +1,14 @@
-export declare const ENV_DEV = "dev";
-export declare const ENV_STAGING = "stg";
-export declare const ENV_PROD = "prod";
+import { type AWSRegion } from '../../constants.js';
+import { ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
 export * from './validators.js';
-export type Region = 'us-east-1' | 'us-east-2' | 'us-west-1' | 'us-west-2';
 export interface RegionDeploy {
-    region: Region;
+    region: AWSRegion;
     suffix: string;
     enabled: boolean;
 }
 export interface EnvConfig {
     name: string;
-    env: string;
+    env: typeof ENV_DEV | typeof ENV_STAGING | typeof ENV_PROD | '';
     account: string;
     cpu: number;
     memory: number;
@@ -31,7 +29,7 @@ export declare const createEmptyConfig: () => EnvConfig;
 export declare const defaultDevConfig: () => EnvConfig;
 export declare const defaultStgConfig: () => EnvConfig;
 export declare const defaultProdConfig: () => EnvConfig;
-export declare const createRegionDeploy: (region: Region, suffix: string, enabled: boolean) => RegionDeploy;
+export declare const createRegionDeploy: (region: AWSRegion, suffix: string, enabled: boolean) => RegionDeploy;
 export interface TagsConfig {
     project?: string;
     owner: 'Komodo Future Solutions' | string;

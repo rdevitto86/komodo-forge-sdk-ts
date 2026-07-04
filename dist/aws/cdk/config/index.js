@@ -1,10 +1,5 @@
-export const ENV_DEV = 'dev';
-export const ENV_STAGING = 'stg';
-export const ENV_PROD = 'prod';
-const DEFAULT_REGION_EAST = 'us-east-2';
-const DEFAULT_REGION_WEST = 'us-west-2';
-const DEFAULT_ACCOUNT_NONPROD = '122703641091';
-const DEFAULT_ACCOUNT_PROD = '123456789012';
+import { DEFAULT_ACCOUNT_NONPROD, DEFAULT_ACCOUNT_PROD, DEFAULT_REGION_EAST, DEFAULT_REGION_WEST, } from '../../constants.js';
+import { ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
 export * from './validators.js';
 export const createEmptyConfig = () => ({
     name: '',
@@ -34,7 +29,11 @@ export const defaultDevConfig = () => ({
     vpcTag: '',
     domainName: '',
     certificateArn: '',
-    regions: [{ region: DEFAULT_REGION_EAST, suffix: 'east', enabled: true }],
+    regions: [{
+            region: DEFAULT_REGION_EAST,
+            suffix: 'east',
+            enabled: true,
+        }],
     tags: {
         owner: 'Komodo Future Solutions',
         managedBy: 'cdk',
@@ -108,8 +107,5 @@ export const defaultTags = () => ({
     owner: 'Komodo Future Solutions',
     managedBy: 'cdk',
 });
-export const resolveDeployColor = () => {
-    const value = process.env.DEPLOY_COLOR;
-    return value === 'green' ? 'green' : 'blue';
-};
+export const resolveDeployColor = () => (process.env.DEPLOY_COLOR === 'green' ? 'green' : 'blue');
 //# sourceMappingURL=index.js.map

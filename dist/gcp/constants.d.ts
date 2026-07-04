@@ -1,0 +1,38 @@
+export declare const GCP_REGION_US_CENTRAL1 = "us-central1";
+export declare const GCP_REGION_US_EAST1 = "us-east1";
+export declare const GCP_REGION_US_EAST4 = "us-east4";
+export declare const GCP_REGION_US_WEST1 = "us-west1";
+export declare const GCP_REGION_EU_WEST1 = "europe-west1";
+export declare const GCP_REGION_EU_WEST2 = "europe-west2";
+export declare const GCP_REGION_EU_WEST3 = "europe-west3";
+export declare const GCP_REGION_AP_EAST1 = "asia-east1";
+export declare const GCP_REGION_AP_NORTHEAST1 = "asia-northeast1";
+export declare const GCP_REGION_AP_SOUTHEAST1 = "asia-southeast1";
+export declare const GCP_REGION_AP_SOUTH1 = "asia-south1";
+export declare const GCP_REGION_SA_EAST1 = "southamerica-east1";
+export declare const GCP_REGION_AUSTRALIA_SOUTHEAST1 = "australia-southeast1";
+export declare const GCP_REGION_AFRICA_EAST1 = "africa-south1";
+export declare const GCP_REGIONS: {
+    readonly GCP_REGION_US_CENTRAL1: "us-central1";
+    readonly GCP_REGION_US_EAST1: "us-east1";
+    readonly GCP_REGION_US_EAST4: "us-east4";
+    readonly GCP_REGION_US_WEST1: "us-west1";
+    readonly GCP_REGION_EU_WEST1: "europe-west1";
+    readonly GCP_REGION_EU_WEST2: "europe-west2";
+    readonly GCP_REGION_EU_WEST3: "europe-west3";
+    readonly GCP_REGION_AP_EAST1: "asia-east1";
+    readonly GCP_REGION_AP_NORTHEAST1: "asia-northeast1";
+    readonly GCP_REGION_AP_SOUTHEAST1: "asia-southeast1";
+    readonly GCP_REGION_AP_SOUTH1: "asia-south1";
+    readonly GCP_REGION_SA_EAST1: "southamerica-east1";
+    readonly GCP_REGION_AUSTRALIA_SOUTHEAST1: "australia-southeast1";
+    readonly GCP_REGION_AFRICA_EAST1: "africa-south1";
+};
+export type GCPRegionKey = keyof typeof GCP_REGIONS;
+export type GCPRegion = (typeof GCP_REGIONS)[GCPRegionKey] | '';
+export declare const DEFAULT_REGION_US: GCPRegion;
+export declare const DEFAULT_REGION_US_CENTRAL: GCPRegion;
+export declare const DEFAULT_REGION_US_EAST: GCPRegion;
+export declare const DEFAULT_REGION_EU: GCPRegion;
+export declare const DEFAULT_REGION_EU_WEST: GCPRegion;
+//# sourceMappingURL=constants.d.ts.map

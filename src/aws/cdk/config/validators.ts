@@ -1,4 +1,4 @@
-import { ENV_DEV, ENV_STAGING, ENV_PROD } from './index.js';
+import { ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
 import type { EnvConfig, RegionDeploy } from './index.js';
 
 export const isValidARN = (arn: string): boolean => arn.startsWith('arn:');

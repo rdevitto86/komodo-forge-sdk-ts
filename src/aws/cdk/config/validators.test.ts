@@ -392,7 +392,7 @@ describe('validateConfig', () => {
 	});
 
 	it('rejects invalid env', () => {
-		expect(validateConfig(configWith({ env: 'local' }))).toBe(false);
+		expect(validateConfig(configWith({ env: 'local' as EnvConfig['env'] }))).toBe(false);
 	});
 
 	it('rejects invalid account', () => {

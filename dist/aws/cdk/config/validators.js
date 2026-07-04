@@ -1,4 +1,4 @@
-import { ENV_DEV, ENV_STAGING, ENV_PROD } from './index.js';
+import { ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
 export const isValidARN = (arn) => arn.startsWith('arn:');
 export const isValidDomain = (domain) => domain === 'komodo.com' || domain.endsWith('.komodo.com');
 export const isValidCpu = (cpu) => cpu >= 256 && cpu <= 3072;
