@@ -1,6 +1,6 @@
 {
   "name": "@komodo-forge-sdk/typescript",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "An internal library for Komodo APIs built using Node",
   "type": "module",
   "main": "./dist/index.js",
@@ -35,18 +35,18 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.260.0",
+    "aws-cdk-lib": "^2.261.0",
     "constructs": "^10.6.0",
     "fast-redact": "^3.5.0",
     "globals": "^17.7.0",
     "jose": "^6.2.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.1",
+    "@biomejs/biome": "^2.5.2",
     "@types/fast-redact": "^3.0.4",
-    "@types/node": "^26.0.1",
+    "@types/node": "^26.1.0",
     "@vitest/coverage-v8": "^4.1.9",
-    "oxlint": "^1.71.0",
+    "oxlint": "^1.72.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
     "vitest": "^4.1.9"
@@ -64,17 +64,13 @@
       "types": "./dist/api/*/index.d.ts",
       "import": "./dist/api/*/index.js"
     },
-    "./cdk": {
-      "types": "./dist/deploy/cdk/index.d.ts",
-      "import": "./dist/deploy/cdk/index.js"
+    "./aws": {
+      "types": "./dist/aws/index.d.ts",
+      "import": "./dist/aws/index.js"
     },
-    "./cdk/*": {
-      "types": "./dist/deploy/cdk/*/index.d.ts",
-      "import": "./dist/deploy/cdk/*/index.js"
-    },
-    "./cdk/constants": {
-      "types": "./dist/deploy/cdk/constants.d.ts",
-      "import": "./dist/deploy/cdk/constants.js"
+    "./aws/*": {
+      "types": "./dist/aws/*/index.d.ts",
+      "import": "./dist/aws/*/index.js"
     },
     "./client": {
       "types": "./dist/client/index.d.ts",
@@ -98,6 +94,6 @@
     "README.md"
   ],
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=26.0.0"
   }
 }

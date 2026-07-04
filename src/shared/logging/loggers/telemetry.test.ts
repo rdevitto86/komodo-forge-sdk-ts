@@ -233,7 +233,7 @@ describe('Integration Tests', () => {
 			telemetry.trace('span B');
 
 			await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
-			const urls = fetchMock.mock.calls.map(([url]: [string]) => url);
+			const urls = fetchMock.mock.calls.map(([url]: string[]) => url);
 			expect(urls).toContain('https://logs.example.com/runtime');
 			expect(urls).toContain('https://logs.example.com/telemetry');
 

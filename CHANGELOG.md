@@ -4,6 +4,47 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ---
 
+## [0.5.0] — 2026-07-03
+
+### Added
+- **`FargateService.requireExplicitSecurityGroups`** — constructor now throws when set and either `albSecurityGroup` or `taskSecurityGroup` is omitted, closing a gap where the flag existed on the props type but was never enforced
+- **`LambdaFunction` construct** — new `constructs/lambda.ts`, replacing the removed builder-pattern Lambda helper; creates a bounded-retention log group (`RetentionDays.ONE_WEEK`) when `logGroup` isn't supplied, matching the SDK's other log group defaults
+- **`resolveDeployColor()`** — reads `DEPLOY_COLOR` from the environment, defaulting to `'blue'`
+- **`FargateService.deployColor`** — new prop that drives real blue/green traffic cutover: when `enableBlueGreen` is set, `deployColor` picks which target group receives the ALB listener's default action (all traffic, no header required), while the other color stays reachable only via the `X-Deploy-Color` header for pre-cutover canary verification. Flipping `DEPLOY_COLOR` (via `resolveDeployColor()`, wired into each CDK app entrypoint) and redeploying swaps which color is live — this is the actual cutover mechanism, not the header itself. `FargateService` stays pure: callers resolve the color and pass it in, the construct never reads `process.env` directly
+- **`constructs/` gains ten Construct classes**, replacing every remaining builder-pattern helper (`XxxBuilder` + `createXxx(stack, ...)` + `.build()`) with a standard `new Xxx(scope, id, props)` subclass of `Construct`, matching the existing `WafWebAcl` / `MetricFilterAlarm` style:
+  - `LogGroup` (`constructs/logGroup.ts`, was `observability/logs.ts`'s `createLogGroup(stack)...build()`)
+  - `Alarm` (`constructs/alarm.ts`, was `observability/alarms.ts`'s `createAlarm(stack, metric)...build()`; the old `addAlarmAction(s)` / `addOkAction(s)` / `addInsufficientDataAction(s)` accumulator methods are now plain `alarmActions` / `okActions` / `insufficientDataActions` array props)
+  - `SnsTopic` (`constructs/snsTopic.ts`, was `messaging/sns.ts`'s `createSnsTopic(stack)...build()`; `addSubscription()` is now a `subscriptions` array prop)
+  - `SqsQueue` (`constructs/sqs.ts`, was `messaging/sqs.ts`'s `createSqsQueue(stack)...build()`; `addSubscription()` is now a `subscriptions` array prop)
+  - `Vpc` (`constructs/vpc.ts`, was `networking/vpc.ts`'s `createVpc(stack)...build()`; `addSubnetGroup()` is now a `subnetGroups` array prop)
+  - `SecurityGroup` (`constructs/securityGroup.ts`, was `networking/securityGroups.ts`'s `createSecurityGroup(stack, vpc)...build()`; `addIngressRule(s)` / `addEgressRule(s)` are now `ingressRules` / `egressRules` array props)
+  - `IamRole` and `attachPermissions` (`constructs/iamRole.ts`, was `security/iam.ts`'s `createIamRole(stack)...build()`; `addInlinePolicy()` / `addManagedPolicy()` are now `inlinePolicies` / `managedPolicies` props)
+  - `IamPolicy` (`constructs/iamPolicy.ts`, split out of `security/iam.ts`'s `createIamPolicy(stack)...build()`; `addStatement(s)` / `attachToRole(s)` / `attachToUser(s)` / `attachToGroup(s)` are now `statements` / `roles` / `users` / `groups` array props)
+  - `KmsKey` (`constructs/kms.ts`, was `security/kms.ts`'s `createKmsKey(stack)...build()`; `addAdministrator(s)` is now an `administrators` array prop)
+  - `Secret` (`constructs/secrets.ts`, was `security/secretsManager.ts`'s `createSecret(stack)...build()`; `addGrantTarget(s)` is now a `grantTargets` array prop)
+
+  All defaulting and conditional-prop logic that used to live in each builder's `.build()` moved into the constructor unchanged; every prop interface dropped its `stack: cdk.Stack` field (the outer `scope` constructor argument replaces it), and `SecurityGroupConfig`/`SecurityGroupProps` folded the old separate `vpc` constructor argument into the props object.
+- **`config/index.ts` gains `ENV_DEV`, `ENV_STAGING`, `ENV_PROD`** — moved from the removed `constants.ts` since `config/validators.ts` is now the only other consumer and imports them from `./index.js` directly
+
+### Fixed
+- **`FargateService` blue/green target group registration** — the green target group rule was registered with a `priority` but no routing `conditions`, which CDK rejects at synth time; added a header-based condition so `enableBlueGreen: true` synths successfully
+- **`Secret` construct's `secretStringValue`** — now built via `cdk.SecretValue.unsafePlainText(...)` instead of casting the raw string to `any`, which failed at synth time with `unsafeUnwrap is not a function` since `secretsmanager.Secret` expects a `cdk.SecretValue` instance, not a plain string
+- **`defaultStgConfig()` missing `us-west-2`** — `regions` only listed `us-east-2`, inconsistent with `defaultProdConfig()`'s two-region default and with the `[0.4.0]` entry above stating staging should default `us-west-2` to `enabled: true`; added the `us-west-2` region entry so `defaultStgConfig()` now returns both regions by default, matching prod
+
+### Removed
+- **`compute/` module** (`fargate.ts`, `lambda.ts`, `index.ts`, `index.test.ts`) — unused builder-pattern Fargate/Lambda helpers superseded by the `constructs/` Construct classes
+- **`messaging/`, `networking/`, `observability/`, `security/` modules** — deleted entirely (implementations, tests, and barrel `index.ts` files); their contents now live flat in `constructs/` as the Construct classes listed above
+- **`deploy/cdk/constants.ts`** — deleted; its exports were redistributed:
+  - `ENV_DEV`, `ENV_STAGING`, `ENV_PROD` moved into `config/index.ts` (still exported from the `./aws/cdk` and `./aws/cdk/config` subpaths)
+  - `DEFAULT_REGION_EAST`, `DEFAULT_REGION_WEST`, `DEFAULT_ACCOUNT_NONPROD`, `DEFAULT_ACCOUNT_PROD` inlined as unexported local constants in `config/index.ts` — they had no consumers outside that file
+  - `ENV_LOCAL`, `ENV_DEV_FULL`, `ENV_STAGING_FULL`, `ENV_PROD_FULL`, `US_EAST_1`, `US_EAST_2`, `US_WEST_1`, `US_WEST_2`, `HOST_LOCALHOST`, `DEFAULT_PORT`, `DEFAULT_PORT_HTTPS`, `DEFAULT_PORT_GRPC`, `DEFAULT_HEALTH_CHECK_PATH`, `DEFAULT_HEALTH_CHECK_COMMAND`, `DEFAULT_EVAL_RULES_PATH` deleted outright — dead code, unused anywhere in this SDK or by either downstream consumer
+  - the `"./cdk/constants"` subpath export removed from `package.json` — there is no longer a file for it to point to
+
+### Changed
+- **AWS code consolidated under `src/aws/`** — `src/deploy/cdk/` moved to `src/aws/cdk/`, and `src/api/aws/*` (`aurora`, `cloudfront`, `cloudwatch`, `dynamodb`, `lambda`, `s3`, `secrets-manager`, `ses`, `sns`, `sqs`) moved up to top-level `src/aws/*`, so all AWS-specific SDK code now lives under one `src/aws/` root; `package.json` exports gained `"./aws"` / `"./aws/*"` and lost `"./cdk"` / `"./cdk/*"`
+
+---
+
 ## [0.4.2] — 2026-10-13
 
 ### Fixed

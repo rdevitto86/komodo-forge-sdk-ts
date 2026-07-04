@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     include: [
       'src/shared/logging/**/*.test.ts',
-      'src/deploy/cdk/**/*.test.ts',
+      'src/aws/cdk/**/*.test.ts',
     ],
     exclude: [
       'src/shared/logging/logging.test.ts',
@@ -14,7 +14,7 @@ export default defineConfig({
       provider: 'v8',
       include: [
         'src/shared/logging/**/*.ts',
-        'src/deploy/cdk/**/*.ts',
+        'src/aws/cdk/**/*.ts',
       ],
       exclude: [
         'src/**/*.test.ts',
