@@ -1,40 +1,37 @@
-export const ENV_DEV = 'dev';
-export const ENV_STAGING = 'stg';
-export const ENV_PROD = 'prod';
-
-const DEFAULT_REGION_EAST = 'us-east-2';
-const DEFAULT_REGION_WEST = 'us-west-2';
-
-const DEFAULT_ACCOUNT_NONPROD = '122703641091';
-const DEFAULT_ACCOUNT_PROD = '123456789012';
+import {
+	DEFAULT_ACCOUNT_NONPROD,
+	DEFAULT_ACCOUNT_PROD,
+	DEFAULT_REGION_EAST,
+	DEFAULT_REGION_WEST,
+	type AWSRegion,
+} from '../../constants.js';
+import { ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
 
 export * from './validators.js';
-
-export type Region = 'us-east-1' | 'us-east-2' | 'us-west-1' | 'us-west-2';
 export interface RegionDeploy {
-	region: Region;
+	region: AWSRegion;
 	suffix: string;
 	enabled: boolean;
 }
 
 export interface EnvConfig {
-	name: string; // app/service name
-	env: string; // environment (dev, stg, prod)
-	account: string; // AWS account ID
-	cpu: number; // 256, 512, 1024, etc.
-	memory: number; // 512, 1024, 2048, etc.
-	minCapacity: number; // minimum number of tasks
-	maxCapacity: number; // maximum number of tasks
-	secretPath?: string; // optional: path to secrets in AWS Secrets Manager
-	downstreamUrls?: string[]; // optional: URLs of downstream services
-	upstreamUrls?: string[]; // optional: URLs of upstream services
-	vpcTag: string; // tag to identify VPC
-	domainName: string; // domain name for the service
-	certificateArn: string; // ARN of the SSL certificate
-	cloudfrontEnabled?: boolean; // optional: enable CloudFront
-	cloudFrontCertificateArn?: string; // optional: ARN of the CloudFront SSL certificate
-	regions: RegionDeploy[]; // regions to deploy to
-	tags?: Record<string, string>; // optional: tags to apply to resources
+	name: string;
+	env: typeof ENV_DEV | typeof ENV_STAGING | typeof ENV_PROD | '';
+	account: string;
+	cpu: number;
+	memory: number;
+	minCapacity: number;
+	maxCapacity: number;
+	secretPath?: string;
+	downstreamUrls?: string[];
+	upstreamUrls?: string[];
+	vpcTag: string;
+	domainName: string;
+	certificateArn: string;
+	cloudfrontEnabled?: boolean;
+	cloudFrontCertificateArn?: string;
+	regions: RegionDeploy[];
+	tags?: Record<string, string>;
 }
 
 export const createEmptyConfig = (): EnvConfig => ({
@@ -66,7 +63,11 @@ export const defaultDevConfig = (): EnvConfig => ({
 	vpcTag: '',
 	domainName: '',
 	certificateArn: '',
-	regions: [{ region: DEFAULT_REGION_EAST, suffix: 'east', enabled: true }],
+	regions: [{
+		region: DEFAULT_REGION_EAST,
+		suffix: 'east',
+		enabled: true,
+	}],
 	tags: {
 		owner: 'Komodo Future Solutions',
 		managedBy: 'cdk',
@@ -123,7 +124,7 @@ export const defaultProdConfig = (): EnvConfig => ({
 	},
 });
 
-export const createRegionDeploy = (region: Region, suffix: string, enabled: boolean): RegionDeploy => ({
+export const createRegionDeploy = (region: AWSRegion, suffix: string, enabled: boolean): RegionDeploy => ({
 	region,
 	suffix,
 	enabled,
@@ -160,7 +161,4 @@ export const defaultTags = (): Record<string, string> => ({
 
 export type DeployColor = 'blue' | 'green';
 
-export const resolveDeployColor = (): DeployColor => {
-	const value = process.env.DEPLOY_COLOR;
-	return value === 'green' ? 'green' : 'blue';
-};
+export const resolveDeployColor = (): DeployColor => (process.env.DEPLOY_COLOR === 'green' ? 'green' : 'blue');

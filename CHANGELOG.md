@@ -4,6 +4,17 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ---
 
+## [0.5.1] — 2026-07-04
+
+### Added
+- **`src/constants.ts`** — new top-level module for env (`ENV_LOCAL`/`ENV_DEV`/`ENV_PERF`/`ENV_QA`/`ENV_STAGING`/`ENV_PROD` and their `_FULL` variants), host (`HOST_LOCAL`), and port (`DEFAULT_PORT_LOCAL`/`DEFAULT_PORT_HTTP`/`DEFAULT_PORT_HTTPS`) constants shared across Komodo apps; re-exported from `src/index.ts` as `constants`
+- **`src/aws/constants.ts`** — new module with a full AWS region catalog (`AWS_REGIONS`) spanning US, EU, AP, SA, and AF regions, plus per-partition `DEFAULT_REGION_*` helpers and `AWS_REGION_*` account IDs; re-exported from `src/aws/index.ts` as `constants`
+- **`src/gcp/constants.ts`** — new module with a GCP region catalog (`GCP_REGIONS`) and `DEFAULT_REGION_*` helpers; re-exported from `src/gcp/index.ts` as `constants`
+
+### Changed
+- **`aws/cdk/config`'s region/account/env constants now sourced from the new shared constants modules** — `DEFAULT_REGION_EAST`, `DEFAULT_REGION_WEST`, `DEFAULT_ACCOUNT_NONPROD`, `DEFAULT_ACCOUNT_PROD` now import from `aws/constants.ts`; `ENV_DEV`/`ENV_STAGING`/`ENV_PROD` now import from top-level `constants.ts`; `EnvConfig.env` is typed against those constants instead of `string`
+- **`Region` type replaced by `AWSRegion`** (`aws/cdk/config/index.ts`) — now imported from `aws/constants.ts`
+
 ## [0.5.0] — 2026-07-03
 
 ### Added
