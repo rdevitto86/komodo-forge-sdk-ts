@@ -4,6 +4,11 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ---
 
+## [0.6.1] — 2026-07-06
+
+### Changed
+- **BREAKING: `aws/constants.ts` sub-namespace re-exports dropped their `Constants` suffix** — `auroraConstants` → `aurora`, `cloudfrontConstants` → `cloudfront`, `cloudwatchConstants` → `cloudwatch`, `dynamodbConstants` → `dynamodb`, `elasticacheConstants` → `elasticache`, `lambdaConstants` → `lambda`, `s3Constants` → `s3`, `secretsManagerConstants` → `secretsManager`, `sesConstants` → `ses`, `snsConstants` → `sns`, `sqsConstants` → `sqs`. Known consumer impact: `komodo-auth-api`'s `deploy/cdk/main.ts` references `awsConstants.dynamodbConstants`, `awsConstants.cloudwatchConstants`, and `awsConstants.elasticacheConstants` directly — those call sites need updating to the new names before that repo can bump past `v0.6.0`.
+
 ## [0.6.0] — 2026-07-06
 
 ### Added
