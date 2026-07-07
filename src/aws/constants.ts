@@ -1,14 +1,14 @@
-export * as auroraConstants from './aurora/constants.js';
-export * as cloudfrontConstants from './cloudfront/constants.js';
-export * as cloudwatchConstants from './cloudwatch/constants.js';
-export * as dynamodbConstants from './dynamodb/constants.js';
-export * as elasticacheConstants from './elasticache/constants.js';
-export * as lambdaConstants from './lambda/constants.js';
-export * as s3Constants from './s3/constants.js';
-export * as secretsManagerConstants from './secrets-manager/index.js';
-export * as sesConstants from './ses/constants.js';
-export * as snsConstants from './sns/constants.js';
-export * as sqsConstants from './sqs/constants.js';
+export * as aurora from './aurora/constants.js';
+export * as cloudfront from './cloudfront/constants.js';
+export * as cloudwatch from './cloudwatch/constants.js';
+export * as dynamodb from './dynamodb/constants.js';
+export * as elasticache from './elasticache/constants.js';
+export * as lambda from './lambda/constants.js';
+export * as s3 from './s3/constants.js';
+export * as secretsManager from './secrets-manager/index.js';
+export * as ses from './ses/constants.js';
+export * as sns from './sns/constants.js';
+export * as sqs from './sqs/constants.js';
 
 // AWS regions
 export const REGION_EAST1 = 'us-east-1'; // Virginia, US
