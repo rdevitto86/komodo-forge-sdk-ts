@@ -4,6 +4,11 @@ All notable changes to `@komodo-forge-sdk/typescript` will be documented here.
 
 ---
 
+## [0.6.0] — 2026-07-06
+
+### Added
+- **`aws/cdk/constructs` — `RotationFailureAlarm`.** Thin preset over `MetricFilterAlarm` scoped to secret-rotation reload failures (e.g. a signing-key or client-registry hot-reload silently failing). Consuming services instantiate one per rotating secret via a `label` prop instead of hand-writing a CloudWatch Logs Insights filter pattern per secret.
+
 ## [0.5.2] — 2026-07-04
 
 ### Added
