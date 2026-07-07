@@ -7,6 +7,7 @@ export * from './kms.js';
 export * from './lambda.js';
 export * from './logGroup.js';
 export * from './metricFilterAlarm.js';
+export * from './rotationFailureAlarm.js';
 export * from './secrets.js';
 export * from './securityGroup.js';
 export * from './snsTopic.js';
