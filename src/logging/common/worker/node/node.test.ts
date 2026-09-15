@@ -16,17 +16,15 @@ vi.mock('worker_threads', () => ({
 
 describe('Unit Tests', () => {
 	describe('parentPort setup', () => {
-		it('does not throw when parentPort is available', async () => {
-			await expect(import('./node.js')).resolves.toBeDefined();
-		});
-
-		it('registers a message handler on parentPort', async () => {
+		it('registers a message handler on parentPort without throwing', async () => {
 			const wt = await import('worker_threads');
 			const { on } = wt.parentPort as unknown as {
 				on: ReturnType<typeof vi.fn>;
 				postMessage: ReturnType<typeof vi.fn>;
 			};
-			await import('./node.js'); // module is cached after first import — no re-execution needed
+			// Vitest 5 clears mock call history between tests (clearMocks defaults to true),
+			// so the import that triggers registration and the assertion must share a test.
+			await expect(import('./node.js')).resolves.toBeDefined();
 			expect(on).toHaveBeenCalledWith('message', expect.any(Function));
 		});
 	});
