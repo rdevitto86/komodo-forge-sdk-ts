@@ -7,7 +7,41 @@ export interface SnsTopicSubscription {
 	endpoint: string;
 	protocol: sns.SubscriptionProtocol;
 	filterPolicy?: { [attribute: string]: sns.SubscriptionFilter };
+	rawMessageDelivery?: boolean;
 }
+
+export class UnsupportedSubscriptionProtocolError extends Error {
+	constructor(protocol: string) {
+		super(`Use an endpoint-based protocol (email, email-json, http, https, sms); received "${protocol}"`);
+		this.name = 'UnsupportedSubscriptionProtocolError';
+	}
+}
+
+const buildSubscription = (subscription: SnsTopicSubscription): sns.ITopicSubscription => {
+	const filterPolicy = subscription.filterPolicy;
+
+	switch (subscription.protocol) {
+		case sns.SubscriptionProtocol.EMAIL:
+			return new subscriptions.EmailSubscription(subscription.endpoint, { ...(filterPolicy && { filterPolicy }) });
+		case sns.SubscriptionProtocol.EMAIL_JSON:
+			return new subscriptions.EmailSubscription(subscription.endpoint, {
+				json: true,
+				...(filterPolicy && { filterPolicy }),
+			});
+		case sns.SubscriptionProtocol.HTTP:
+		case sns.SubscriptionProtocol.HTTPS:
+			return new subscriptions.UrlSubscription(subscription.endpoint, {
+				...(filterPolicy && { filterPolicy }),
+				...(subscription.rawMessageDelivery !== undefined && {
+					rawMessageDelivery: subscription.rawMessageDelivery,
+				}),
+			});
+		case sns.SubscriptionProtocol.SMS:
+			return new subscriptions.SmsSubscription(subscription.endpoint, { ...(filterPolicy && { filterPolicy }) });
+		default:
+			throw new UnsupportedSubscriptionProtocolError(subscription.protocol);
+	}
+};
 
 export interface SnsTopicProps {
 	topicName?: string;
@@ -38,7 +72,7 @@ export class SnsTopic extends Construct {
 		}
 
 		for (const subscription of props.subscriptions ?? []) {
-			this.topic.addSubscription(new subscriptions.EmailSubscription(subscription.endpoint));
+			this.topic.addSubscription(buildSubscription(subscription));
 		}
 	}
 }

@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  echo "Usage: pre-push"
+  echo ""
+  echo "Runs vitest against the tests related to files changed since"
+  echo "PREPUSH_BASE, with coverage thresholds from vitest.config.ts."
+  echo "Optional hook — remove it or skip a run with --no-verify."
+  echo ""
+  echo "Environment variables:"
+  echo "  PREPUSH_BASE   Comparison ref   (default: origin/main)"
+  echo ""
+  echo "Install:"
+  echo "  pnpm run install-hooks"
+  exit 0
+fi
+
+BASE="${PREPUSH_BASE:-origin/main}"
+
+command -v pnpm >/dev/null 2>&1 || exit 0
+git rev-parse --verify --quiet "$BASE" >/dev/null || exit 0
+
+merge_base="$(git merge-base HEAD "$BASE")"
+changed="$(git diff --name-only --diff-filter=ACMR "$merge_base"...HEAD -- '*.ts' '*.tsx' '*.svelte' | grep -v '^dist/' || true)"
+[ -n "$changed" ] || exit 0
+
+printf 'pre-push: vitest on tests related to %d changed file(s)\n' "$(printf '%s\n' "$changed" | wc -l | tr -d ' ')"
+
+if ! pnpm exec vitest run --changed "$merge_base" --coverage; then
+  printf '\npre-push: tests or coverage thresholds failed\n' >&2
+  printf 'push anyway with: git push --no-verify\n\n' >&2
+  exit 1
+fi

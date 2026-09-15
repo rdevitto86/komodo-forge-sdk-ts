@@ -1,5 +1,6 @@
 export * from './alarm.js';
 export * from './dynamodb.js';
+export * from './eventBus.js';
 export * from './fargate.js';
 export * from './iamPolicy.js';
 export * from './iamRole.js';
@@ -7,7 +8,9 @@ export * from './kms.js';
 export * from './lambda.js';
 export * from './logGroup.js';
 export * from './metricFilterAlarm.js';
+export * from './rollbackAlarm.js';
 export * from './rotationFailureAlarm.js';
+export * from './s3.js';
 export * from './secrets.js';
 export * from './securityGroup.js';
 export * from './snsTopic.js';

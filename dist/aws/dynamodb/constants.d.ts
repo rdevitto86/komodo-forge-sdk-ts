@@ -1,6 +1,6 @@
 export declare const DYNAMODB_BILLING_MODE: {
-    readonly PAY_PER_REQUEST: "PAY_PER_REQUEST";
-    readonly PROVISIONED: "PROVISIONED";
+    readonly PAY_PER_REQUEST: 'PAY_PER_REQUEST';
+    readonly PROVISIONED: 'PROVISIONED';
 };
 export declare const DYNAMODB_DEFAULT_READ_CAPACITY = 5;
 export declare const DYNAMODB_DEFAULT_WRITE_CAPACITY = 5;

@@ -4,28 +4,13 @@
 		"includes": ["src/**"]
 	},
 	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab",
-		"indentWidth": 2,
-		"lineWidth": 120,
-		"lineEnding": "lf"
-	},
-	"javascript": {
-		"formatter": {
-			"quoteStyle": "single",
-			"trailingCommas": "all",
-			"semicolons": "always",
-			"bracketSpacing": true,
-			"arrowParentheses": "always"
-		}
-	},
-	"json": {
-		"formatter": {
-			"trailingCommas": "none"
-		}
+		"enabled": false
 	},
 	"linter": {
-		"enabled": false
+		"enabled": true,
+		"rules": {
+			"preset": "recommended"
+		}
 	},
 	"assist": {
 		"actions": {

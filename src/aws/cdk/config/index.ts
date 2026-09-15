@@ -6,6 +6,7 @@ import {
 	REGIONS,
 } from '../../constants.js';
 import {
+	ENV_CI,
 	ENV_DEV,
 	ENV_STAGING,
 	ENV_PROD,
@@ -29,7 +30,7 @@ export interface RegionDeploy {
 
 export interface EnvConfig {
 	name: string;
-	env: typeof ENV_DEV | typeof ENV_STAGING | typeof ENV_PROD | '';
+	env: typeof ENV_DEV | typeof ENV_CI | typeof ENV_STAGING | typeof ENV_PROD | '';
 	account: string;
 	cpu: number;
 	memory: number;
@@ -76,15 +77,44 @@ export const defaultDevConfig = (): EnvConfig => ({
 	vpcTag: '',
 	domainName: '',
 	certificateArn: '',
-	regions: [{
-		region: DEFAULT_REGION_EAST,
-		suffix: 'east',
-		enabled: true,
-	}],
+	regions: [
+		{
+			region: DEFAULT_REGION_EAST,
+			suffix: 'east',
+			enabled: true,
+		},
+	],
 	tags: {
 		owner: KOMODO_NAME_FULL,
 		managedBy: CICD_TOOL_CDK,
 		environment: ENV_DEV,
+	},
+});
+
+export const defaultCiConfig = (): EnvConfig => ({
+	name: '',
+	env: ENV_CI,
+	account: DEFAULT_ACCOUNT_NONPROD,
+	cpu: 256,
+	memory: 512,
+	minCapacity: 1,
+	maxCapacity: 2,
+	downstreamUrls: [],
+	upstreamUrls: [],
+	vpcTag: '',
+	domainName: '',
+	certificateArn: '',
+	regions: [
+		{
+			region: DEFAULT_REGION_EAST,
+			suffix: 'east',
+			enabled: true,
+		},
+	],
+	tags: {
+		owner: KOMODO_NAME_FULL,
+		managedBy: CICD_TOOL_CDK,
+		environment: ENV_CI,
 	},
 });
 
@@ -150,7 +180,7 @@ export type TierTag = 'standard' | 'high' | 'critical' | string;
 export interface TagsConfig {
 	project?: string;
 	owner: typeof KOMODO_NAME_FULL | string;
-	environment?: typeof ENV_DEV | typeof ENV_STAGING | typeof ENV_PROD | string;
+	environment?: typeof ENV_DEV | typeof ENV_CI | typeof ENV_STAGING | typeof ENV_PROD | string;
 	costCenter?: string;
 	managedBy: typeof CICD_TOOL_CDK | typeof CICD_TOOL_TERRAFORM | string;
 	version?: string;
@@ -178,4 +208,5 @@ export const defaultTags = (): Record<string, string> => ({
 
 export type DeployColor = typeof CANARY_BLUE | typeof CANARY_GREEN;
 
-export const resolveDeployColor = (): DeployColor => (process.env.DEPLOY_COLOR === 'green' ? CANARY_GREEN : CANARY_BLUE);
+export const resolveDeployColor = (): DeployColor =>
+	process.env.DEPLOY_COLOR === 'green' ? CANARY_GREEN : CANARY_BLUE;

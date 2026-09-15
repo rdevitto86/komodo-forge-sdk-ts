@@ -102,7 +102,7 @@ describe('constructs/LambdaFunction', () => {
 			logGroup: new logs.LogGroup(stack, 'CustomLogGroup', {
 				logGroupName: '/custom/log-group',
 				retention: logs.RetentionDays.ONE_MONTH,
-			})
+			}),
 		});
 		const template = Template.fromStack(stack);
 		const logGroups = template.findResources('AWS::Logs::LogGroup');

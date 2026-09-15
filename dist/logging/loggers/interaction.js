@@ -18,6 +18,7 @@ export default class InteractionLogger {
     /** False in Node/Lambda — semantic UI events have no meaning outside a browser. */
     #enabled;
     constructor(config) {
+        // biome-ignore lint/correctness/noConstructorReturn: intentional singleton pattern
         if (InteractionLogger.#instance)
             return InteractionLogger.#instance;
         this.#service = config.service;

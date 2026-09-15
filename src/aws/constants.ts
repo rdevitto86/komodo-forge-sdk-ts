@@ -30,17 +30,17 @@ export const REGION_SA_EAST1 = 'sa-east-1'; // São Paulo, BR
 export const REGION_AF_SOUTH1 = 'af-south-1'; // Cape Town, ZA
 
 export const REGIONS = {
-  REGION_EAST1,
-  REGION_EAST2,
-  REGION_WEST1,
-  REGION_WEST2,
-  REGION_EU_CENTRAL1,
-  REGION_EU_WEST1,
-  REGION_AP_SE1,
-  REGION_AP_SE2,
-  REGION_AP_SE4,
-  REGION_AP_NORTHEAST1,
-  REGION_AP_SOUTH1,
+	REGION_EAST1,
+	REGION_EAST2,
+	REGION_WEST1,
+	REGION_WEST2,
+	REGION_EU_CENTRAL1,
+	REGION_EU_WEST1,
+	REGION_AP_SE1,
+	REGION_AP_SE2,
+	REGION_AP_SE4,
+	REGION_AP_NORTHEAST1,
+	REGION_AP_SOUTH1,
 } as const;
 
 export const DEFAULT_REGION_US = REGION_EAST2;
@@ -176,11 +176,11 @@ export const KMS_KEY_USAGE_GENERATE_VERIFY_MAC = 'GENERATE_VERIFY_MAC';
 
 // AWS ECS/EC2
 export const DEFAULT_ECS_TASK_SIZES = {
-  MICRO: { cpu: 256, memoryLimitMiB: 512 },
-  SMALL: { cpu: 512, memoryLimitMiB: 1024 },
-  MEDIUM: { cpu: 1024, memoryLimitMiB: 2048 },
-  LARGE: { cpu: 2048, memoryLimitMiB: 4096 },
-  XLARGE: { cpu: 4096, memoryLimitMiB: 8192 },
+	MICRO: { cpu: 256, memoryLimitMiB: 512 },
+	SMALL: { cpu: 512, memoryLimitMiB: 1024 },
+	MEDIUM: { cpu: 1024, memoryLimitMiB: 2048 },
+	LARGE: { cpu: 2048, memoryLimitMiB: 4096 },
+	XLARGE: { cpu: 4096, memoryLimitMiB: 8192 },
 } as const;
 
 // ECS cluster naming patterns

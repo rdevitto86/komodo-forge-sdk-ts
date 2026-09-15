@@ -19,6 +19,7 @@ export default class RuntimeLogger {
     #minLevel;
     #enableRemote;
     constructor(config) {
+        // biome-ignore lint/correctness/noConstructorReturn: intentional singleton pattern
         if (RuntimeLogger.#instance)
             return RuntimeLogger.#instance;
         this.#service = config.service;

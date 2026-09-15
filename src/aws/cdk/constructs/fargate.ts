@@ -275,21 +275,21 @@ export class FargateService extends Construct {
 			metric: new cloudwatch.Metric({
 				metricName: 'UnHealthyHostCount',
 				namespace: 'AWS/ApplicationELB',
-				dimensionsMap: { LoadBalancer: this.alb.loadBalancerArn },
+				dimensionsMap: { LoadBalancer: this.alb.loadBalancerFullName },
 				statistic: 'Average',
 				period: cdk.Duration.seconds(60),
 			}),
 			threshold: alarmThresholds.unhealthyTargets ?? 1,
 			evaluationPeriods: 2,
-			comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+			comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
 		});
 
 		new cloudwatch.Alarm(this, 'High5xxErrorAlarm', {
 			metric: new cloudwatch.Metric({
-				metricName: 'HTTPCode_Target_5XX',
+				metricName: 'HTTPCode_Target_5XX_Count',
 				namespace: 'AWS/ApplicationELB',
-				dimensionsMap: { LoadBalancer: this.alb.loadBalancerArn },
+				dimensionsMap: { LoadBalancer: this.alb.loadBalancerFullName },
 				statistic: 'Sum',
 				period: cdk.Duration.seconds(60),
 			}),

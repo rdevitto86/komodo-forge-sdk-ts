@@ -9,6 +9,9 @@ export class SqsQueue extends Construct {
     constructor(scope, id, props = {}) {
         super(scope, id);
         this.queue = new sqs.Queue(this, props.queueName ?? 'SqsQueue', {
+            ...(props.queueName && { queueName: props.queueName }),
+            ...(props.enforceSSL !== undefined && { enforceSSL: props.enforceSSL }),
+            ...(props.removalPolicy && { removalPolicy: props.removalPolicy }),
             ...(props.visibilityTimeout && { visibilityTimeout: props.visibilityTimeout }),
             ...(props.retentionPeriod && { retentionPeriod: props.retentionPeriod }),
             ...(props.receiveMessageWaitTime && { receiveMessageWaitTime: props.receiveMessageWaitTime }),

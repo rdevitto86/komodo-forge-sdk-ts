@@ -26,30 +26,28 @@
     "update": "pnpm update --latest && pnpm install",
     "prepublishOnly": "pnpm run rebuild",
     "release": "bash scripts/release.sh",
-    "format": "biome format --write src/",
-    "format:check": "biome check --formatter-enabled=true --linter-enabled=false src/",
-    "lint": "oxlint",
-    "lint:fix": "oxlint --fix",
+    "install-hooks": "git config core.hooksPath scripts/hooks && echo \"hooks installed — pre-commit mandatory, pre-push optional\"",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.261.0",
-    "constructs": "^10.6.0",
+    "aws-cdk-lib": "^2.269.0",
+    "constructs": "^10.8.1",
     "fast-redact": "^3.5.0",
-    "globals": "^17.7.0",
-    "jose": "^6.2.3"
+    "globals": "^17.12.0",
+    "jose": "^6.2.12"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.2",
+    "@biomejs/biome": "^2.5.13",
     "@types/fast-redact": "^3.0.4",
-    "@types/node": "^26.1.0",
-    "@vitest/coverage-v8": "^4.1.9",
-    "oxlint": "^1.72.0",
+    "@types/node": "^26.5.1",
+    "@vitest/coverage-v8": "^5.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
   },
   "exports": {
     ".": {

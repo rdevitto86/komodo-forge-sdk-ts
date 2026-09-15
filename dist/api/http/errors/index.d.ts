@@ -39,163 +39,163 @@ export declare const Ranges: {
 export declare function codeID(rangeRoot: number, offset: number): string;
 export declare const Global: {
     readonly BadRequest: {
-        readonly id: "10001";
+        readonly id: '10001';
         readonly status: 400;
-        readonly message: "Bad request";
+        readonly message: 'Bad request';
     };
     readonly Unauthorized: {
-        readonly id: "10002";
+        readonly id: '10002';
         readonly status: 401;
-        readonly message: "Unauthorized";
+        readonly message: 'Unauthorized';
     };
     readonly PaymentRequired: {
-        readonly id: "10003";
+        readonly id: '10003';
         readonly status: 402;
-        readonly message: "Payment required";
+        readonly message: 'Payment required';
     };
     readonly Forbidden: {
-        readonly id: "10004";
+        readonly id: '10004';
         readonly status: 403;
-        readonly message: "Forbidden";
+        readonly message: 'Forbidden';
     };
     readonly NotFound: {
-        readonly id: "10005";
+        readonly id: '10005';
         readonly status: 404;
-        readonly message: "Not found";
+        readonly message: 'Not found';
     };
     readonly MethodNotAllowed: {
-        readonly id: "10006";
+        readonly id: '10006';
         readonly status: 405;
-        readonly message: "Method not allowed";
+        readonly message: 'Method not allowed';
     };
     readonly Conflict: {
-        readonly id: "10007";
+        readonly id: '10007';
         readonly status: 409;
-        readonly message: "Conflict";
+        readonly message: 'Conflict';
     };
     readonly UnprocessableEntity: {
-        readonly id: "10008";
+        readonly id: '10008';
         readonly status: 422;
-        readonly message: "Unprocessable entity";
+        readonly message: 'Unprocessable entity';
     };
     readonly TooManyRequests: {
-        readonly id: "10009";
+        readonly id: '10009';
         readonly status: 429;
-        readonly message: "Too many requests";
+        readonly message: 'Too many requests';
     };
     readonly Internal: {
-        readonly id: "10010";
+        readonly id: '10010';
         readonly status: 500;
-        readonly message: "Internal server error";
+        readonly message: 'Internal server error';
     };
     readonly NotImplemented: {
-        readonly id: "10011";
+        readonly id: '10011';
         readonly status: 501;
-        readonly message: "Not implemented";
+        readonly message: 'Not implemented';
     };
     readonly BadGateway: {
-        readonly id: "10012";
+        readonly id: '10012';
         readonly status: 502;
-        readonly message: "Bad gateway";
+        readonly message: 'Bad gateway';
     };
     readonly ServiceUnavailable: {
-        readonly id: "10013";
+        readonly id: '10013';
         readonly status: 503;
-        readonly message: "Service unavailable";
+        readonly message: 'Service unavailable';
     };
     readonly GatewayTimeout: {
-        readonly id: "10014";
+        readonly id: '10014';
         readonly status: 504;
-        readonly message: "Gateway timeout";
+        readonly message: 'Gateway timeout';
     };
 };
 export declare const DB: {
     readonly ConnectionFailed: {
-        readonly id: "11001";
+        readonly id: '11001';
         readonly status: 500;
-        readonly message: "Database connection failed";
+        readonly message: 'Database connection failed';
     };
     readonly QueryFailed: {
-        readonly id: "11002";
+        readonly id: '11002';
         readonly status: 500;
-        readonly message: "Database query failed";
+        readonly message: 'Database query failed';
     };
     readonly TransactionFailed: {
-        readonly id: "11003";
+        readonly id: '11003';
         readonly status: 500;
-        readonly message: "Database transaction failed";
+        readonly message: 'Database transaction failed';
     };
     readonly RecordNotFound: {
-        readonly id: "11004";
+        readonly id: '11004';
         readonly status: 404;
-        readonly message: "Record not found";
+        readonly message: 'Record not found';
     };
     readonly DuplicateEntry: {
-        readonly id: "11005";
+        readonly id: '11005';
         readonly status: 409;
-        readonly message: "Duplicate entry";
+        readonly message: 'Duplicate entry';
     };
 };
 export declare const Auth: {
     readonly InvalidClientCredentials: {
-        readonly id: "20001";
+        readonly id: '20001';
         readonly status: 401;
-        readonly message: "Invalid client credentials";
+        readonly message: 'Invalid client credentials';
     };
     readonly InvalidGrantType: {
-        readonly id: "20002";
+        readonly id: '20002';
         readonly status: 400;
-        readonly message: "Invalid grant type";
+        readonly message: 'Invalid grant type';
     };
     readonly InvalidScope: {
-        readonly id: "20003";
+        readonly id: '20003';
         readonly status: 400;
-        readonly message: "Invalid scope";
+        readonly message: 'Invalid scope';
     };
     readonly InvalidToken: {
-        readonly id: "20004";
+        readonly id: '20004';
         readonly status: 401;
-        readonly message: "Invalid token";
+        readonly message: 'Invalid token';
     };
     readonly InvalidKey: {
-        readonly id: "20005";
+        readonly id: '20005';
         readonly status: 401;
-        readonly message: "Invalid auth key";
+        readonly message: 'Invalid auth key';
     };
     readonly ExpiredToken: {
-        readonly id: "20006";
+        readonly id: '20006';
         readonly status: 401;
-        readonly message: "Token expired";
+        readonly message: 'Token expired';
     };
     readonly UnauthorizedClient: {
-        readonly id: "20007";
+        readonly id: '20007';
         readonly status: 401;
-        readonly message: "Unauthorized client";
+        readonly message: 'Unauthorized client';
     };
     readonly UnsupportedGrantType: {
-        readonly id: "20008";
+        readonly id: '20008';
         readonly status: 400;
-        readonly message: "Unsupported grant type";
+        readonly message: 'Unsupported grant type';
     };
     readonly UnsupportedResponseType: {
-        readonly id: "20009";
+        readonly id: '20009';
         readonly status: 400;
-        readonly message: "Unsupported response type";
+        readonly message: 'Unsupported response type';
     };
     readonly InvalidRedirectURI: {
-        readonly id: "20010";
+        readonly id: '20010';
         readonly status: 400;
-        readonly message: "Invalid redirect URI";
+        readonly message: 'Invalid redirect URI';
     };
     readonly AccessDenied: {
-        readonly id: "20011";
+        readonly id: '20011';
         readonly status: 403;
-        readonly message: "Access denied";
+        readonly message: 'Access denied';
     };
     readonly InsufficientScope: {
-        readonly id: "20012";
+        readonly id: '20012';
         readonly status: 403;
-        readonly message: "Insufficient scope";
+        readonly message: 'Insufficient scope';
     };
 };
 /** Builds a JSON error Response from an ErrorCode. */

@@ -1,4 +1,4 @@
-import { ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
+import { ENV_CI, ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
 import type { EnvConfig, RegionDeploy } from './index.js';
 
 export const isValidARN = (arn: string): boolean => arn.startsWith('arn:');
@@ -7,7 +7,7 @@ export const isValidCpu = (cpu: number): boolean => cpu >= 256 && cpu <= 3072;
 export const isValidMemory = (memory: number): boolean => memory >= 512 && memory <= 6144;
 export const isValidCapacity = (capacity: number): boolean => capacity >= 1 && capacity <= 10;
 export const isValidEnvironment = (environment: string): boolean =>
-	environment === ENV_DEV || environment === ENV_STAGING || environment === ENV_PROD;
+	environment === ENV_DEV || environment === ENV_CI || environment === ENV_STAGING || environment === ENV_PROD;
 export const isValidVersion = (version: string): boolean => /^\d+\.\d+\.\d+$/.test(version);
 export const isValidRegion = (region: string): boolean =>
 	region === 'us-east-1' || region === 'us-east-2' || region === 'us-west-1' || region === 'us-west-2';

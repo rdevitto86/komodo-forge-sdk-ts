@@ -16,6 +16,7 @@ export default class TelemetryLogger {
     #version;
     #verbose;
     constructor(config) {
+        // biome-ignore lint/correctness/noConstructorReturn: intentional singleton pattern
         if (TelemetryLogger.#instance)
             return TelemetryLogger.#instance;
         this.#service = config.service;

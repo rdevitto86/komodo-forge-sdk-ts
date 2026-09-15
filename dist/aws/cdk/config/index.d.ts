@@ -1,5 +1,5 @@
 import { REGIONS } from '../../constants.js';
-import { ENV_DEV, ENV_STAGING, ENV_PROD, KOMODO_NAME_FULL, CANARY_BLUE, CANARY_GREEN, CICD_TOOL_CDK, CICD_TOOL_TERRAFORM } from '../../../constants.js';
+import { ENV_CI, ENV_DEV, ENV_STAGING, ENV_PROD, KOMODO_NAME_FULL, CANARY_BLUE, CANARY_GREEN, CICD_TOOL_CDK, CICD_TOOL_TERRAFORM } from '../../../constants.js';
 export * from './validators.js';
 export type RegionKey = keyof typeof REGIONS;
 export type Region = (typeof REGIONS)[RegionKey] | '';
@@ -10,7 +10,7 @@ export interface RegionDeploy {
 }
 export interface EnvConfig {
     name: string;
-    env: typeof ENV_DEV | typeof ENV_STAGING | typeof ENV_PROD | '';
+    env: typeof ENV_DEV | typeof ENV_CI | typeof ENV_STAGING | typeof ENV_PROD | '';
     account: string;
     cpu: number;
     memory: number;
@@ -29,6 +29,7 @@ export interface EnvConfig {
 }
 export declare const createEmptyConfig: () => EnvConfig;
 export declare const defaultDevConfig: () => EnvConfig;
+export declare const defaultCiConfig: () => EnvConfig;
 export declare const defaultStgConfig: () => EnvConfig;
 export declare const defaultProdConfig: () => EnvConfig;
 export declare const createRegionDeploy: (region: Region, suffix: string, enabled: boolean) => RegionDeploy;
@@ -38,7 +39,7 @@ export type TierTag = 'standard' | 'high' | 'critical' | string;
 export interface TagsConfig {
     project?: string;
     owner: typeof KOMODO_NAME_FULL | string;
-    environment?: typeof ENV_DEV | typeof ENV_STAGING | typeof ENV_PROD | string;
+    environment?: typeof ENV_DEV | typeof ENV_CI | typeof ENV_STAGING | typeof ENV_PROD | string;
     costCenter?: string;
     managedBy: typeof CICD_TOOL_CDK | typeof CICD_TOOL_TERRAFORM | string;
     version?: string;

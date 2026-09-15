@@ -31,35 +31,47 @@ describe('constructs/FargateService', () => {
 
 	describe('requireExplicitSecurityGroups', () => {
 		it('throws when set and both security groups are omitted', () => {
-			expect(() => new FargateService(stack, 'Svc', {
-				...baseProps,
-				requireExplicitSecurityGroups: true,
-			})).toThrow('missing required albSecurityGroup or taskSecurityGroup when requireExplicitSecurityGroups is set');
+			expect(
+				() =>
+					new FargateService(stack, 'Svc', {
+						...baseProps,
+						requireExplicitSecurityGroups: true,
+					}),
+			).toThrow('missing required albSecurityGroup or taskSecurityGroup when requireExplicitSecurityGroups is set');
 		});
 
 		it('throws when set and only albSecurityGroup is provided', () => {
-			expect(() => new FargateService(stack, 'Svc', {
-				...baseProps,
-				requireExplicitSecurityGroups: true,
-				albSecurityGroup: new ec2.SecurityGroup(stack, 'AlbSG', { vpc }),
-			})).toThrow('missing required albSecurityGroup or taskSecurityGroup when requireExplicitSecurityGroups is set');
+			expect(
+				() =>
+					new FargateService(stack, 'Svc', {
+						...baseProps,
+						requireExplicitSecurityGroups: true,
+						albSecurityGroup: new ec2.SecurityGroup(stack, 'AlbSG', { vpc }),
+					}),
+			).toThrow('missing required albSecurityGroup or taskSecurityGroup when requireExplicitSecurityGroups is set');
 		});
 
 		it('throws when set and only taskSecurityGroup is provided', () => {
-			expect(() => new FargateService(stack, 'Svc', {
-				...baseProps,
-				requireExplicitSecurityGroups: true,
-				taskSecurityGroup: new ec2.SecurityGroup(stack, 'TaskSG', { vpc }),
-			})).toThrow('missing required albSecurityGroup or taskSecurityGroup when requireExplicitSecurityGroups is set');
+			expect(
+				() =>
+					new FargateService(stack, 'Svc', {
+						...baseProps,
+						requireExplicitSecurityGroups: true,
+						taskSecurityGroup: new ec2.SecurityGroup(stack, 'TaskSG', { vpc }),
+					}),
+			).toThrow('missing required albSecurityGroup or taskSecurityGroup when requireExplicitSecurityGroups is set');
 		});
 
 		it('does not throw when set and both security groups are provided', () => {
-			expect(() => new FargateService(stack, 'Svc', {
-				...baseProps,
-				requireExplicitSecurityGroups: true,
-				albSecurityGroup: new ec2.SecurityGroup(stack, 'AlbSG', { vpc }),
-				taskSecurityGroup: new ec2.SecurityGroup(stack, 'TaskSG', { vpc }),
-			})).not.toThrow();
+			expect(
+				() =>
+					new FargateService(stack, 'Svc', {
+						...baseProps,
+						requireExplicitSecurityGroups: true,
+						albSecurityGroup: new ec2.SecurityGroup(stack, 'AlbSG', { vpc }),
+						taskSecurityGroup: new ec2.SecurityGroup(stack, 'TaskSG', { vpc }),
+					}),
+			).not.toThrow();
 		});
 
 		it('does not throw when unset regardless of security groups', () => {
@@ -219,8 +231,55 @@ describe('constructs/FargateService', () => {
 				'AWS::CloudWatch::Alarm',
 				Match.objectLike({
 					Threshold: 5,
-					MetricName: 'HTTPCode_Target_5XX',
+					MetricName: 'HTTPCode_Target_5XX_Count',
 					Namespace: 'AWS/ApplicationELB',
+				}),
+			);
+		});
+
+		it('dimensions the ALB alarms on LoadBalancerFullName, not the ARN', () => {
+			const svc = new FargateService(stack, 'Svc', { ...baseProps });
+			const template = Template.fromStack(stack);
+			const expected = [{ Name: 'LoadBalancer', Value: stack.resolve(svc.alb.loadBalancerFullName) }];
+
+			expect(stack.resolve(svc.alb.loadBalancerFullName)).toEqual({
+				'Fn::GetAtt': [expect.any(String), 'LoadBalancerFullName'],
+			});
+
+			template.hasResourceProperties(
+				'AWS::CloudWatch::Alarm',
+				Match.objectLike({ MetricName: 'UnHealthyHostCount', Dimensions: expected }),
+			);
+			template.hasResourceProperties(
+				'AWS::CloudWatch::Alarm',
+				Match.objectLike({ MetricName: 'HTTPCode_Target_5XX_Count', Dimensions: expected }),
+			);
+		});
+
+		it('uses the published 5xx metric name, not the countless variant', () => {
+			new FargateService(stack, 'Svc', { ...baseProps });
+			const template = Template.fromStack(stack);
+
+			expect(
+				Object.values(template.findResources('AWS::CloudWatch::Alarm')).filter(
+					(alarm) => alarm.Properties.MetricName === 'HTTPCode_Target_5XX',
+				).length,
+			).toBe(0);
+			template.hasResourceProperties(
+				'AWS::CloudWatch::Alarm',
+				Match.objectLike({ MetricName: 'HTTPCode_Target_5XX_Count' }),
+			);
+		});
+
+		it('alarms on a single unhealthy target, not two', () => {
+			new FargateService(stack, 'Svc', { ...baseProps });
+
+			Template.fromStack(stack).hasResourceProperties(
+				'AWS::CloudWatch::Alarm',
+				Match.objectLike({
+					MetricName: 'UnHealthyHostCount',
+					Threshold: 1,
+					ComparisonOperator: 'GreaterThanOrEqualToThreshold',
 				}),
 			);
 		});

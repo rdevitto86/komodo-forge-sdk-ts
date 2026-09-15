@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  echo "Usage: pre-commit"
+  echo ""
+  echo "Lints staged TypeScript files, then re-stages them."
+  echo "Runs biome and a project-wide tsc --noEmit."
+  echo "Never runs tests — those belong in the pre-push hook."
+  echo ""
+  echo "Install:"
+  echo "  pnpm run install-hooks"
+  echo ""
+  echo "Skip once:"
+  echo "  git commit --no-verify"
+  exit 0
+fi
+
+staged="$(git diff --cached --name-only --diff-filter=ACMR -- '*.ts' '*.tsx' '*.svelte' | grep -v '^dist/' || true)"
+[ -n "$staged" ] || exit 0
+
+fail() {
+  printf '\npre-commit: %s\n\n' "$*" >&2
+  exit 1
+}
+
+run() { pnpm exec "$@"; }
+
+printf 'pre-commit: biome\n'
+# shellcheck disable=SC2046
+run biome lint --write $(printf '%s ' $staged) || fail "lint failed"
+
+while IFS= read -r file; do
+  [ -f "$file" ] || continue
+  git add "$file"
+done <<< "$staged"
+
+printf 'pre-commit: tsc\n'
+run tsc --noEmit || fail "typecheck failed"

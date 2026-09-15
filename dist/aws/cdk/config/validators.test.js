@@ -126,6 +126,9 @@ describe('isValidEnvironment', () => {
     it('accepts dev', () => {
         expect(isValidEnvironment('dev')).toBe(true);
     });
+    it('accepts ci', () => {
+        expect(isValidEnvironment('ci')).toBe(true);
+    });
     it('accepts stg', () => {
         expect(isValidEnvironment('stg')).toBe(true);
     });
