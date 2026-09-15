@@ -1,7 +1,7 @@
 // AWS DynamoDB constants
 export const DYNAMODB_BILLING_MODE = {
-  PAY_PER_REQUEST: 'PAY_PER_REQUEST',
-  PROVISIONED: 'PROVISIONED',
+	PAY_PER_REQUEST: 'PAY_PER_REQUEST',
+	PROVISIONED: 'PROVISIONED',
 } as const;
 
 // Default capacity units for provisioned mode

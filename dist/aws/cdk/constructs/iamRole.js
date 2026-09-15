@@ -9,7 +9,8 @@ export class IamRole extends Construct {
             assumedBy: props.assumedBy || new iam.ServicePrincipal('lambda.amazonaws.com'),
             ...(props.description && { description: props.description }),
             ...(props.permissionsBoundary && { permissionsBoundary: props.permissionsBoundary }),
-            ...(props.inlinePolicies && Object.keys(props.inlinePolicies).length > 0 && { inlinePolicies: props.inlinePolicies }),
+            ...(props.inlinePolicies &&
+                Object.keys(props.inlinePolicies).length > 0 && { inlinePolicies: props.inlinePolicies }),
             ...(props.managedPolicies && props.managedPolicies.length > 0 && { managedPolicies: props.managedPolicies }),
             ...(props.maxSessionDuration && { maxSessionDuration: props.maxSessionDuration }),
             ...(props.path && { path: props.path }),

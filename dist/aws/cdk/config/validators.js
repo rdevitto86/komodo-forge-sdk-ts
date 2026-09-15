@@ -1,10 +1,10 @@
-import { ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
+import { ENV_CI, ENV_DEV, ENV_STAGING, ENV_PROD } from '../../../constants.js';
 export const isValidARN = (arn) => arn.startsWith('arn:');
 export const isValidDomain = (domain) => domain === 'komodo.com' || domain.endsWith('.komodo.com');
 export const isValidCpu = (cpu) => cpu >= 256 && cpu <= 3072;
 export const isValidMemory = (memory) => memory >= 512 && memory <= 6144;
 export const isValidCapacity = (capacity) => capacity >= 1 && capacity <= 10;
-export const isValidEnvironment = (environment) => environment === ENV_DEV || environment === ENV_STAGING || environment === ENV_PROD;
+export const isValidEnvironment = (environment) => environment === ENV_DEV || environment === ENV_CI || environment === ENV_STAGING || environment === ENV_PROD;
 export const isValidVersion = (version) => /^\d+\.\d+\.\d+$/.test(version);
 export const isValidRegion = (region) => region === 'us-east-1' || region === 'us-east-2' || region === 'us-west-1' || region === 'us-west-2';
 export const isValidRegionDeploy = (regionDeploy) => isValidRegion(regionDeploy.region) &&

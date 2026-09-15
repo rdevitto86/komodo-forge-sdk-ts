@@ -24,6 +24,8 @@ export interface SqsQueueProps {
     deliveryDelay?: cdk.Duration;
     maxMessageSize?: number;
     messageRetentionPeriod?: cdk.Duration;
+    enforceSSL?: boolean;
+    removalPolicy?: cdk.RemovalPolicy;
     subscriptions?: SqsQueueSubscription[];
     tags?: Record<string, string>;
 }

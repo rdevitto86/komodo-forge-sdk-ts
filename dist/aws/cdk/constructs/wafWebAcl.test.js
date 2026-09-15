@@ -18,10 +18,7 @@ describe('constructs/WafWebAcl', () => {
     it('adds managed rule groups with auto-incrementing priority', () => {
         new WafWebAcl(stack, 'Waf', {
             metricPrefix: 'test',
-            managedRuleGroups: [
-                { name: 'AWSManagedRulesCommonRuleSet' },
-                { name: 'AWSManagedRulesSQLiRuleSet' },
-            ],
+            managedRuleGroups: [{ name: 'AWSManagedRulesCommonRuleSet' }, { name: 'AWSManagedRulesSQLiRuleSet' }],
         });
         Template.fromStack(stack).hasResourceProperties('AWS::WAFv2::WebACL', {
             Rules: Match.arrayWith([
@@ -102,8 +99,7 @@ describe('constructs/WafWebAcl', () => {
                 internetFacing: true,
             }),
         });
-        Template.fromStack(stack)
-            .hasResource('AWS::WAFv2::WebACLAssociation', {});
+        Template.fromStack(stack).hasResource('AWS::WAFv2::WebACLAssociation', {});
     });
     it('does not create association when associateAlb omitted', () => {
         new WafWebAcl(stack, 'Waf', { metricPrefix: 'test' });

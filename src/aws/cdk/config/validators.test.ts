@@ -177,6 +177,10 @@ describe('isValidEnvironment', () => {
 		expect(isValidEnvironment('dev')).toBe(true);
 	});
 
+	it('accepts ci', () => {
+		expect(isValidEnvironment('ci')).toBe(true);
+	});
+
 	it('accepts stg', () => {
 		expect(isValidEnvironment('stg')).toBe(true);
 	});
@@ -256,7 +260,9 @@ describe('isValidRegionDeploy', () => {
 	});
 
 	it('rejects an invalid region', () => {
-		expect(isValidRegionDeploy({ region: 'eu-west-1', suffix: 'west', enabled: true } as unknown as RegionDeploy)).toBe(false);
+		expect(isValidRegionDeploy({ region: 'eu-west-1', suffix: 'west', enabled: true } as unknown as RegionDeploy)).toBe(
+			false,
+		);
 	});
 
 	it('rejects missing suffix', () => {
@@ -401,9 +407,7 @@ describe('validateConfig', () => {
 
 	it('rejects invalid region in regions array', () => {
 		expect(
-			validateConfig(
-				configWith({ regions: [{ region: 'eu-west-1' as 'us-east-1', suffix: 'west', enabled: true }] }),
-			),
+			validateConfig(configWith({ regions: [{ region: 'eu-west-1' as 'us-east-1', suffix: 'west', enabled: true }] })),
 		).toBe(false);
 	});
 

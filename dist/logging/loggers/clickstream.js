@@ -18,6 +18,7 @@ export default class ClickstreamLogger {
     /** False in Node/Lambda — no DOM. Set once at construction. */
     #enabled;
     constructor(config) {
+        // biome-ignore lint/correctness/noConstructorReturn: intentional singleton pattern
         if (ClickstreamLogger.#instance)
             return ClickstreamLogger.#instance;
         this.#service = config.service;

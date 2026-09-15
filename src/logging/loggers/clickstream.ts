@@ -44,6 +44,7 @@ export default class ClickstreamLogger {
 	readonly #enabled!: boolean;
 
 	constructor(config: ClickstreamLoggerConfig) {
+		// biome-ignore lint/correctness/noConstructorReturn: intentional singleton pattern
 		if (ClickstreamLogger.#instance) return ClickstreamLogger.#instance;
 
 		this.#service = config.service;

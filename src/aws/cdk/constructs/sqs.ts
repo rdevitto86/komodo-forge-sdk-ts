@@ -25,6 +25,8 @@ export interface SqsQueueProps {
 	deliveryDelay?: cdk.Duration;
 	maxMessageSize?: number;
 	messageRetentionPeriod?: cdk.Duration;
+	enforceSSL?: boolean;
+	removalPolicy?: cdk.RemovalPolicy;
 	subscriptions?: SqsQueueSubscription[];
 	tags?: Record<string, string>;
 }
@@ -36,6 +38,9 @@ export class SqsQueue extends Construct {
 		super(scope, id);
 
 		this.queue = new sqs.Queue(this, props.queueName ?? 'SqsQueue', {
+			...(props.queueName && { queueName: props.queueName }),
+			...(props.enforceSSL !== undefined && { enforceSSL: props.enforceSSL }),
+			...(props.removalPolicy && { removalPolicy: props.removalPolicy }),
 			...(props.visibilityTimeout && { visibilityTimeout: props.visibilityTimeout }),
 			...(props.retentionPeriod && { retentionPeriod: props.retentionPeriod }),
 			...(props.receiveMessageWaitTime && { receiveMessageWaitTime: props.receiveMessageWaitTime }),

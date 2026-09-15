@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import {
 	createEmptyConfig,
 	createTags,
+	defaultCiConfig,
 	defaultDevConfig,
 	defaultProdConfig,
 	defaultStgConfig,
@@ -47,6 +48,16 @@ describe('config/index', () => {
 			expect(config.certificateArn).toBe('');
 			expect(config.regions).toEqual([{ region: 'us-east-2', suffix: 'east', enabled: true }]);
 			expect(config.tags).toEqual({ owner: 'Komodo Future Solutions', managedBy: 'cdk', environment: 'dev' });
+		});
+	});
+
+	describe('defaultCiConfig', () => {
+		it('should create default ci config', () => {
+			const config = defaultCiConfig();
+			expect(config.env).toBe('ci');
+			expect(config.account).toBe('122703641091');
+			expect(config.regions).toEqual([{ region: 'us-east-2', suffix: 'east', enabled: true }]);
+			expect(config.tags).toEqual({ owner: 'Komodo Future Solutions', managedBy: 'cdk', environment: 'ci' });
 		});
 	});
 

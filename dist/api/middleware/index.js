@@ -304,6 +304,7 @@ export function idempotencyMiddleware(ttlMs = 86_400_000) {
 const SQL_INJECTION = /(?:union|select|insert|update|delete|drop|create|alter|exec(?:ute)?|script|javascript|onerror|onload|<script|<\/script)/i;
 const XSS = /(?:<script|<\/script|javascript:|onerror=|onload=|<iframe|<\/iframe|<object|<\/object|<embed|<\/embed)/i;
 const PATH_TRAV = /\.\.\/|\.\.[\\/]/g;
+// biome-ignore lint/suspicious/noControlCharactersInRegex: intentional null-byte match for sanitization
 const NULL_BYTE = /\x00/g;
 function sanitizeStr(s) {
     return s.replace(NULL_BYTE, '').replace(PATH_TRAV, '').replace(SQL_INJECTION, '').replace(XSS, '').trim();

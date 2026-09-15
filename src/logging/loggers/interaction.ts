@@ -37,6 +37,7 @@ export default class InteractionLogger {
 	readonly #enabled!: boolean;
 
 	constructor(config: InteractionLoggerConfig) {
+		// biome-ignore lint/correctness/noConstructorReturn: intentional singleton pattern
 		if (InteractionLogger.#instance) return InteractionLogger.#instance;
 
 		this.#service = config.service;

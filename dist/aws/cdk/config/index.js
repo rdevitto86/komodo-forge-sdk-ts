@@ -1,5 +1,5 @@
 import { DEFAULT_ACCOUNT_NONPROD, DEFAULT_ACCOUNT_PROD, DEFAULT_REGION_EAST, DEFAULT_REGION_WEST, REGIONS, } from '../../constants.js';
-import { ENV_DEV, ENV_STAGING, ENV_PROD, KOMODO_NAME_FULL, CANARY_BLUE, CANARY_GREEN, CICD_TOOL_CDK, CICD_TOOL_TERRAFORM, } from '../../../constants.js';
+import { ENV_CI, ENV_DEV, ENV_STAGING, ENV_PROD, KOMODO_NAME_FULL, CANARY_BLUE, CANARY_GREEN, CICD_TOOL_CDK, CICD_TOOL_TERRAFORM, } from '../../../constants.js';
 export * from './validators.js';
 export const createEmptyConfig = () => ({
     name: '',
@@ -29,15 +29,43 @@ export const defaultDevConfig = () => ({
     vpcTag: '',
     domainName: '',
     certificateArn: '',
-    regions: [{
+    regions: [
+        {
             region: DEFAULT_REGION_EAST,
             suffix: 'east',
             enabled: true,
-        }],
+        },
+    ],
     tags: {
         owner: KOMODO_NAME_FULL,
         managedBy: CICD_TOOL_CDK,
         environment: ENV_DEV,
+    },
+});
+export const defaultCiConfig = () => ({
+    name: '',
+    env: ENV_CI,
+    account: DEFAULT_ACCOUNT_NONPROD,
+    cpu: 256,
+    memory: 512,
+    minCapacity: 1,
+    maxCapacity: 2,
+    downstreamUrls: [],
+    upstreamUrls: [],
+    vpcTag: '',
+    domainName: '',
+    certificateArn: '',
+    regions: [
+        {
+            region: DEFAULT_REGION_EAST,
+            suffix: 'east',
+            enabled: true,
+        },
+    ],
+    tags: {
+        owner: KOMODO_NAME_FULL,
+        managedBy: CICD_TOOL_CDK,
+        environment: ENV_CI,
     },
 });
 export const defaultStgConfig = () => ({
@@ -107,5 +135,5 @@ export const defaultTags = () => ({
     owner: KOMODO_NAME_FULL,
     managedBy: CICD_TOOL_CDK,
 });
-export const resolveDeployColor = () => (process.env.DEPLOY_COLOR === 'green' ? CANARY_GREEN : CANARY_BLUE);
+export const resolveDeployColor = () => process.env.DEPLOY_COLOR === 'green' ? CANARY_GREEN : CANARY_BLUE;
 //# sourceMappingURL=index.js.map

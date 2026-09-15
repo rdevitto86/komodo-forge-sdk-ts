@@ -6,6 +6,10 @@ export interface SnsTopicSubscription {
     filterPolicy?: {
         [attribute: string]: sns.SubscriptionFilter;
     };
+    rawMessageDelivery?: boolean;
+}
+export declare class UnsupportedSubscriptionProtocolError extends Error {
+    constructor(protocol: string);
 }
 export interface SnsTopicProps {
     topicName?: string;
